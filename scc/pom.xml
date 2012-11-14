@@ -47,20 +47,29 @@
                 <version>${platform.version}</version>
                 <scope>provided</scope>
             </dependency>
-
-            <!-- Androlog is a logging and reporting library for Android -->
+	
             <dependency>
-                <groupId>de.akquinet.android.androlog</groupId>
-                <artifactId>androlog</artifactId>
-                <version>1.0.5</version>
-            </dependency>
-
+		<groupId>com.googlecode.androidannotations</groupId>
+		<artifactId>androidannotations</artifactId>
+		<version>2.7</version>
+		<scope>provided</scope>
+	   </dependency>
+	   <dependency>
+		<groupId>com.googlecode.androidannotations</groupId>
+		<artifactId>androidannotations-api</artifactId>
+		<version>2.7</version>
+	    </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.10</version>
                 <scope>provided</scope>
             </dependency>
+	<dependency>
+  <groupId>de.greenrobot</groupId>
+  <artifactId>greendao</artifactId>
+  <version>1.2.0</version>
+</dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -84,19 +93,7 @@
                     </configuration>
 		    <extensions>true</extensions>
                 	<executions>
-		            <execution>
-				        <id>update-manifest</id>
-				        <phase>process-resources</phase>
-				        <goals>
-				            <goal>manifest-update</goal>
-				        </goals>
-		                	<configuration>
-		                    	<manifest>
-		                        	<versionCode>${project.codeVersion}</versionCode>
-		                        	<versionName>${project.version}</versionName>
-		                    	</manifest>
-		        		</configuration>
-		        	</execution>
+		        
 				<execution>
 			    		<id>alignApk</id>
 			    		<phase>install</phase>
