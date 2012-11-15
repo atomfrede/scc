@@ -39,7 +39,10 @@
 	<dependency>
   <groupId>de.greenrobot</groupId>
   <artifactId>greendao</artifactId>
-  <version>1.2.0</version>
+</dependency>
+<dependency>
+  <groupId>de.greenrobot</groupId>
+  <artifactId>greendao-generator</artifactId>
 </dependency>
   </dependencies>
 
