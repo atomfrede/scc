@@ -26,41 +26,31 @@ import de.greenrobot.daogenerator.ToMany;
 
 public class SccDaoGenerator {
 
-	public static void main(String[] args) throws Exception{
+	public static void main(String[] args) throws Exception {
 		Schema schema = new Schema(1, "de.atomfrede.android.scc.dao");
-		
+
 		createCompetition(schema);
-		
-		new DaoGenerator().generateAll(schema, "../scc/scc/src/main/java/de/atomfrede/android/scc/dao");
+
+		new DaoGenerator().generateAll(schema, "../scc/scc/src/main/java");
 	}
-	
-	private static void createCompetition(Schema schema){
+
+	private static void createCompetition(Schema schema) {
 		Entity competition = schema.addEntity("Competition");
 		competition.addIdProperty();
-		competition.addStringProperty("Nnme");
-		
-		
+		competition.addStringProperty("name");
+
 		Entity lap = schema.addEntity("Lap");
 		lap.addIdProperty();
-		Property competitionId = lap.addLongProperty("competitionId").notNull().getProperty();
+		Property competitionId = lap.addLongProperty("competitionId").notNull()
+				.getProperty();
 		lap.addToOne(competition, competitionId);
 		ToMany competitionToLaps = competition.addToMany(lap, competitionId);
-	
-		
+
 		Entity lapEntry = schema.addEntity("LapEntry");
-		Property lapId = lapEntry.addLongProperty("lapId").notNull().getProperty();
+		Property lapId = lapEntry.addLongProperty("lapId").notNull()
+				.getProperty();
+		lapEntry.addToOne(lap, lapId);
+		ToMany lapToLapEntry = lap.addToMany(lapEntry, lapId);
 	}
-	
-	private static void addLap(Schema schema){
-		
-	}
-	/*
-	 * private static void addNote(Schema schema) {
-        Entity note = schema.addEntity("Note");
-        note.addIdProperty();
-        note.addStringProperty("text").notNull();
-        note.addStringProperty("comment");
-        note.addDateProperty("date");
-    }
-	 */
+
 }
