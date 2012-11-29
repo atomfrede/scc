@@ -1,11 +1,13 @@
 package de.atomfrede.android.scc;
 
+import com.googlecode.androidannotations.annotations.EActivity;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 
-
-public class HelloAndroidActivity extends Activity {
+@EActivity
+public class MainActivity extends Activity {
 
     private static String TAG = "scc";
 

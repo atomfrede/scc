@@ -41,9 +41,15 @@
   <artifactId>greendao</artifactId>
 </dependency>
 <dependency>
-  <groupId>de.greenrobot</groupId>
-  <artifactId>greendao-generator</artifactId>
-</dependency>
+		  	<groupId>com.actionbarsherlock</groupId>
+		  	<artifactId>actionbarsherlock</artifactId>
+		  	<type>apklib</type>
+		</dependency>
+		<dependency>
+			<groupId>com.viewpagerindicator</groupId>
+			<artifactId>library</artifactId>
+			<type>apklib</type>
+		</dependency>
   </dependencies>
 
   <build>
