@@ -18,6 +18,7 @@
  */
 package de.atomfrede.scc.generator;
 
+
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Property;
@@ -28,7 +29,8 @@ public class SccDaoGenerator {
 
 	public static void main(String[] args) throws Exception {
 		Schema schema = new Schema(1, "de.atomfrede.android.scc.dao");
-
+		schema.enableKeepSectionsByDefault();
+		
 		createCompetition(schema);
 
 		new DaoGenerator().generateAll(schema, "../scc/scc/src/main/java");
@@ -42,8 +44,10 @@ public class SccDaoGenerator {
 		
 
 		Entity lap = schema.addEntity("Lap");
+		lap.implementsInterface("Comparable<Lap>");
 		Property lapNumberProp = lap.addIntProperty("lapNumber").getProperty();
 		lap.addIdProperty();
+		Property competitionNumber = lap.addIntProperty("competitionNumber").getProperty();
 		Property competitionId = lap.addLongProperty("competitionId").notNull()
 				.getProperty();
 		lap.addToOne(competition, competitionId);
@@ -55,6 +59,14 @@ public class SccDaoGenerator {
 				.getProperty();
 		lapEntry.addToOne(lap, lapId);
 		ToMany lapToLapEntry = lap.addToMany(lapEntry, lapId);
+		
+		lapEntry.addStringProperty("firstname");
+		lapEntry.addStringProperty("lastname");
+		lapEntry.addStringProperty("year");
+		lapEntry.addStringProperty("club");
+		lapEntry.addStringProperty("time");
+		lapEntry.addIntProperty("competitionNumber");
+		lapEntry.addIntProperty("lapNumber");
 	}
 
 }
