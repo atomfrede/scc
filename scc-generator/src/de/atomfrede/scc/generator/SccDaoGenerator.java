@@ -52,13 +52,14 @@ public class SccDaoGenerator {
 				.getProperty();
 		lap.addToOne(competition, competitionId);
 		ToMany competitionToLaps = competition.addToMany(lap, competitionId);
-		competitionToLaps.orderDesc(lapNumberProp);
+		competitionToLaps.orderAsc(lapNumberProp);
 		
 		Entity lapEntry = schema.addEntity("LapEntry");
 		Property lapId = lapEntry.addLongProperty("lapId").notNull()
 				.getProperty();
 		lapEntry.addToOne(lap, lapId);
 		ToMany lapToLapEntry = lap.addToMany(lapEntry, lapId);
+		
 		
 		lapEntry.addStringProperty("firstname");
 		lapEntry.addStringProperty("lastname");
@@ -67,6 +68,9 @@ public class SccDaoGenerator {
 		lapEntry.addStringProperty("time");
 		lapEntry.addIntProperty("competitionNumber");
 		lapEntry.addIntProperty("lapNumber");
+		Property lane = lapEntry.addIntProperty("lane").getProperty();
+		
+		lapToLapEntry.orderAsc(lane);
 	}
 
 }
