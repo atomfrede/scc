@@ -76,6 +76,10 @@ public class CSVReader {
         this(reader, DEFAULT_SEPARATOR, DEFAULT_QUOTE_CHARACTER,
             DEFAULT_SKIP_LINES);
     }
+    
+    public CSVReader(Reader reader, char seperator){
+    	this(reader, seperator, DEFAULT_QUOTE_CHARACTER, DEFAULT_SKIP_LINES);
+    }
 
     /**
      * Constructs CSVReader with supplied separator and quote char.
