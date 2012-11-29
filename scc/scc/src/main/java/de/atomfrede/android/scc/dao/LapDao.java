@@ -30,7 +30,8 @@ public class LapDao extends AbstractDao<Lap, Long> {
     public static class Properties {
         public final static Property LapNumber = new Property(0, Integer.class, "lapNumber", false, "LAP_NUMBER");
         public final static Property Id = new Property(1, Long.class, "id", true, "_id");
-        public final static Property CompetitionId = new Property(2, long.class, "competitionId", false, "COMPETITION_ID");
+        public final static Property CompetitionNumber = new Property(2, Integer.class, "competitionNumber", false, "COMPETITION_NUMBER");
+        public final static Property CompetitionId = new Property(3, long.class, "competitionId", false, "COMPETITION_ID");
     };
 
     private DaoSession daoSession;
@@ -52,7 +53,8 @@ public class LapDao extends AbstractDao<Lap, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'LAP' (" + //
                 "'LAP_NUMBER' INTEGER," + // 0: lapNumber
                 "'_id' INTEGER PRIMARY KEY ," + // 1: id
-                "'COMPETITION_ID' INTEGER NOT NULL );"); // 2: competitionId
+                "'COMPETITION_NUMBER' INTEGER," + // 2: competitionNumber
+                "'COMPETITION_ID' INTEGER NOT NULL );"); // 3: competitionId
     }
 
     /** Drops the underlying database table. */
@@ -75,7 +77,12 @@ public class LapDao extends AbstractDao<Lap, Long> {
         if (id != null) {
             stmt.bindLong(2, id);
         }
-        stmt.bindLong(3, entity.getCompetitionId());
+ 
+        Integer competitionNumber = entity.getCompetitionNumber();
+        if (competitionNumber != null) {
+            stmt.bindLong(3, competitionNumber);
+        }
+        stmt.bindLong(4, entity.getCompetitionId());
     }
 
     @Override
@@ -96,7 +103,8 @@ public class LapDao extends AbstractDao<Lap, Long> {
         Lap entity = new Lap( //
             cursor.isNull(offset + 0) ? null : cursor.getInt(offset + 0), // lapNumber
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // id
-            cursor.getLong(offset + 2) // competitionId
+            cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // competitionNumber
+            cursor.getLong(offset + 3) // competitionId
         );
         return entity;
     }
@@ -106,7 +114,8 @@ public class LapDao extends AbstractDao<Lap, Long> {
     public void readEntity(Cursor cursor, Lap entity, int offset) {
         entity.setLapNumber(cursor.isNull(offset + 0) ? null : cursor.getInt(offset + 0));
         entity.setId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setCompetitionId(cursor.getLong(offset + 2));
+        entity.setCompetitionNumber(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
+        entity.setCompetitionId(cursor.getLong(offset + 3));
      }
     
     /** @inheritdoc */
@@ -137,7 +146,7 @@ public class LapDao extends AbstractDao<Lap, Long> {
         if (competition_LapListQuery == null) {
             QueryBuilder<Lap> queryBuilder = queryBuilder();
             queryBuilder.where(Properties.CompetitionId.eq(competitionId));
-            queryBuilder.orderRaw("LAP_NUMBER DESC");
+            queryBuilder.orderRaw("LAP_NUMBER ASC");
             competition_LapListQuery = queryBuilder.build();
         } else {
             competition_LapListQuery.setParameter(0, competitionId);
