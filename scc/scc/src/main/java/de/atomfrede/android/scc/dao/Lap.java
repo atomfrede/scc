@@ -10,6 +10,7 @@ import de.greenrobot.dao.DaoException;
  */
 public class Lap {
 
+    private Integer lapNumber;
     private Long id;
     private long competitionId;
 
@@ -31,7 +32,8 @@ public class Lap {
         this.id = id;
     }
 
-    public Lap(Long id, long competitionId) {
+    public Lap(Integer lapNumber, Long id, long competitionId) {
+        this.lapNumber = lapNumber;
         this.id = id;
         this.competitionId = competitionId;
     }
@@ -40,6 +42,14 @@ public class Lap {
     public void __setDaoSession(DaoSession daoSession) {
         this.daoSession = daoSession;
         myDao = daoSession != null ? daoSession.getLapDao() : null;
+    }
+
+    public Integer getLapNumber() {
+        return lapNumber;
+    }
+
+    public void setLapNumber(Integer lapNumber) {
+        this.lapNumber = lapNumber;
     }
 
     public Long getId() {

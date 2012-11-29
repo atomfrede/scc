@@ -12,6 +12,7 @@ public class Competition {
 
     private Long id;
     private String name;
+    private Integer competitionNumber;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -28,9 +29,10 @@ public class Competition {
         this.id = id;
     }
 
-    public Competition(Long id, String name) {
+    public Competition(Long id, String name, Integer competitionNumber) {
         this.id = id;
         this.name = name;
+        this.competitionNumber = competitionNumber;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -53,6 +55,14 @@ public class Competition {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getCompetitionNumber() {
+        return competitionNumber;
+    }
+
+    public void setCompetitionNumber(Integer competitionNumber) {
+        this.competitionNumber = competitionNumber;
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */

@@ -25,6 +25,7 @@ public class CompetitionDao extends AbstractDao<Competition, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
+        public final static Property CompetitionNumber = new Property(2, Integer.class, "competitionNumber", false, "COMPETITION_NUMBER");
     };
 
     private DaoSession daoSession;
@@ -44,7 +45,8 @@ public class CompetitionDao extends AbstractDao<Competition, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'COMPETITION' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
-                "'NAME' TEXT);"); // 1: name
+                "'NAME' TEXT," + // 1: name
+                "'COMPETITION_NUMBER' INTEGER);"); // 2: competitionNumber
     }
 
     /** Drops the underlying database table. */
@@ -67,6 +69,11 @@ public class CompetitionDao extends AbstractDao<Competition, Long> {
         if (name != null) {
             stmt.bindString(2, name);
         }
+ 
+        Integer competitionNumber = entity.getCompetitionNumber();
+        if (competitionNumber != null) {
+            stmt.bindLong(3, competitionNumber);
+        }
     }
 
     @Override
@@ -86,7 +93,8 @@ public class CompetitionDao extends AbstractDao<Competition, Long> {
     public Competition readEntity(Cursor cursor, int offset) {
         Competition entity = new Competition( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1) // name
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
+            cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2) // competitionNumber
         );
         return entity;
     }
@@ -96,6 +104,7 @@ public class CompetitionDao extends AbstractDao<Competition, Long> {
     public void readEntity(Cursor cursor, Competition entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setCompetitionNumber(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
      }
     
     /** @inheritdoc */

@@ -38,14 +38,18 @@ public class SccDaoGenerator {
 		Entity competition = schema.addEntity("Competition");
 		competition.addIdProperty();
 		competition.addStringProperty("name");
+		competition.addIntProperty("competitionNumber");
+		
 
 		Entity lap = schema.addEntity("Lap");
+		Property lapNumberProp = lap.addIntProperty("lapNumber").getProperty();
 		lap.addIdProperty();
 		Property competitionId = lap.addLongProperty("competitionId").notNull()
 				.getProperty();
 		lap.addToOne(competition, competitionId);
 		ToMany competitionToLaps = competition.addToMany(lap, competitionId);
-
+		competitionToLaps.orderDesc(lapNumberProp);
+		
 		Entity lapEntry = schema.addEntity("LapEntry");
 		Property lapId = lapEntry.addLongProperty("lapId").notNull()
 				.getProperty();

@@ -28,8 +28,9 @@ public class LapDao extends AbstractDao<Lap, Long> {
      * Can be used for QueryBuilder and for referencing column names.
     */
     public static class Properties {
-        public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property CompetitionId = new Property(1, long.class, "competitionId", false, "COMPETITION_ID");
+        public final static Property LapNumber = new Property(0, Integer.class, "lapNumber", false, "LAP_NUMBER");
+        public final static Property Id = new Property(1, Long.class, "id", true, "_id");
+        public final static Property CompetitionId = new Property(2, long.class, "competitionId", false, "COMPETITION_ID");
     };
 
     private DaoSession daoSession;
@@ -49,8 +50,9 @@ public class LapDao extends AbstractDao<Lap, Long> {
     public static void createTable(SQLiteDatabase db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'LAP' (" + //
-                "'_id' INTEGER PRIMARY KEY ," + // 0: id
-                "'COMPETITION_ID' INTEGER NOT NULL );"); // 1: competitionId
+                "'LAP_NUMBER' INTEGER," + // 0: lapNumber
+                "'_id' INTEGER PRIMARY KEY ," + // 1: id
+                "'COMPETITION_ID' INTEGER NOT NULL );"); // 2: competitionId
     }
 
     /** Drops the underlying database table. */
@@ -64,11 +66,16 @@ public class LapDao extends AbstractDao<Lap, Long> {
     protected void bindValues(SQLiteStatement stmt, Lap entity) {
         stmt.clearBindings();
  
+        Integer lapNumber = entity.getLapNumber();
+        if (lapNumber != null) {
+            stmt.bindLong(1, lapNumber);
+        }
+ 
         Long id = entity.getId();
         if (id != null) {
-            stmt.bindLong(1, id);
+            stmt.bindLong(2, id);
         }
-        stmt.bindLong(2, entity.getCompetitionId());
+        stmt.bindLong(3, entity.getCompetitionId());
     }
 
     @Override
@@ -80,15 +87,16 @@ public class LapDao extends AbstractDao<Lap, Long> {
     /** @inheritdoc */
     @Override
     public Long readKey(Cursor cursor, int offset) {
-        return cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0);
+        return cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1);
     }    
 
     /** @inheritdoc */
     @Override
     public Lap readEntity(Cursor cursor, int offset) {
         Lap entity = new Lap( //
-            cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getLong(offset + 1) // competitionId
+            cursor.isNull(offset + 0) ? null : cursor.getInt(offset + 0), // lapNumber
+            cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // id
+            cursor.getLong(offset + 2) // competitionId
         );
         return entity;
     }
@@ -96,8 +104,9 @@ public class LapDao extends AbstractDao<Lap, Long> {
     /** @inheritdoc */
     @Override
     public void readEntity(Cursor cursor, Lap entity, int offset) {
-        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setCompetitionId(cursor.getLong(offset + 1));
+        entity.setLapNumber(cursor.isNull(offset + 0) ? null : cursor.getInt(offset + 0));
+        entity.setId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
+        entity.setCompetitionId(cursor.getLong(offset + 2));
      }
     
     /** @inheritdoc */
@@ -128,6 +137,7 @@ public class LapDao extends AbstractDao<Lap, Long> {
         if (competition_LapListQuery == null) {
             QueryBuilder<Lap> queryBuilder = queryBuilder();
             queryBuilder.where(Properties.CompetitionId.eq(competitionId));
+            queryBuilder.orderRaw("LAP_NUMBER DESC");
             competition_LapListQuery = queryBuilder.build();
         } else {
             competition_LapListQuery.setParameter(0, competitionId);
