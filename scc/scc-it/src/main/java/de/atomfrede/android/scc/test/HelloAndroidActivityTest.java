@@ -3,14 +3,14 @@ package de.atomfrede.android.scc.test;
 import android.test.ActivityInstrumentationTestCase2;
 import de.atomfrede.android.scc.*;
 
-public class HelloAndroidActivityTest extends ActivityInstrumentationTestCase2<HelloAndroidActivity> {
+public class HelloAndroidActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 
     public HelloAndroidActivityTest() {
-        super(HelloAndroidActivity.class); 
+        super(MainActivity.class); 
     }
 
     public void testActivity() {
-        HelloAndroidActivity activity = getActivity();
+        MainActivity activity = getActivity();
         assertNotNull(activity);
     }
 }

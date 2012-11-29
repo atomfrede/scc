@@ -24,7 +24,7 @@
     <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
+	<android-support.version>r7</android-support.version>
 	<java.version>1.6</java.version>
 	<platform.version>4.1.1.4</platform.version>
 	<android.platform>16</android.platform>
@@ -47,6 +47,18 @@
                 <version>${platform.version}</version>
                 <scope>provided</scope>
             </dependency>
+<dependency>
+		  	<groupId>com.actionbarsherlock</groupId>
+		  	<artifactId>actionbarsherlock</artifactId>
+		  	<version>4.2.0</version>
+		  	<type>apklib</type>
+		</dependency>
+		<dependency>
+			<groupId>com.viewpagerindicator</groupId>
+			<artifactId>library</artifactId>
+			<version>2.4.1</version>
+			<type>apklib</type>
+		</dependency>
 	
             <dependency>
 		<groupId>com.googlecode.androidannotations</groupId>
