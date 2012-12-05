@@ -44,7 +44,11 @@ public class ListItemAdapter extends ArrayAdapter<Competition> {
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		
 		Competition cCompetition = competitions.get(position);
-		String headerText = context.getResources().getString(R.id.competition_heading_text).replace("$i$", cCompetition.getCompetitionNumber()+"");
+		String headerText = context.getResources().getString(R.string.competition_heading_text).replace("$i$", cCompetition.getCompetitionNumber()+"");
+		String compName = cCompetition.getName();
+		
+		holder.competitionHeadingText.setText(headerText);
+		holder.competitionNameText.setText(compName);
 		
 		return rowView;
 

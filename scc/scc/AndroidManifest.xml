@@ -10,7 +10,7 @@
         android:targetSdkVersion="17" />
 
     <application
-        android:icon="@drawable/icon"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" android:name=".application.SccApplication_">
         <activity android:name="de.atomfrede.android.scc.MainActivity_" >
             <intent-filter>
