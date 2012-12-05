@@ -23,7 +23,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/loading_progress"
         android:layout_centerHorizontal="true"
-        android:text="Large Text"
+        android:text="@string/loading"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/loading_lap_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loading_text"
+        android:layout_centerHorizontal="true"
+        android:text="Small Text"
+        android:visibility="gone"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

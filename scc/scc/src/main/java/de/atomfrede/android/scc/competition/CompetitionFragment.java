@@ -16,8 +16,10 @@ import android.widget.TextView;
 import au.com.bytecode.opencsv.CSVReader;
 
 import com.googlecode.androidannotations.annotations.AfterViews;
+import com.googlecode.androidannotations.annotations.App;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.ItemClick;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 
@@ -29,18 +31,25 @@ import de.atomfrede.android.scc.dao.Lap;
 import de.atomfrede.android.scc.dao.LapDao;
 import de.atomfrede.android.scc.dao.LapEntry;
 import de.atomfrede.android.scc.dao.LapEntryDao;
+import de.atomfrede.android.scc.lap.LapActivity_;
 
 @EFragment(R.layout.fragment_competition)
 public class CompetitionFragment extends Fragment {
 
 	private static final String TAG = "Scc:CompetitionFragment";
 
+	@App
+	SccApplication mApplication;
+	
 	CompetitionDao competitionDao;
 	LapDao lapDao;
 	LapEntryDao lapEntryDao;
 
 	@ViewById(R.id.loading_text)
 	TextView loadingTextView;
+	
+	@ViewById(R.id.loading_lap_text)
+	TextView loadingLapTextView;
 
 	@ViewById(R.id.loading_progress)
 	ProgressBar loadingProgressBar;
@@ -54,6 +63,12 @@ public class CompetitionFragment extends Fragment {
 	public void init() {
 		readData();
 	}
+	
+	@ItemClick(R.id.competion_list)
+	public void myListItemClicked(int position) {
+		Competition clickedCompetion = mAdapater.getItem(position);
+		LapActivity_.intent(this.getActivity()).competionNumber(clickedCompetion.getCompetitionNumber()+"").competitionName(clickedCompetion.getName()).selectedCompetionId(clickedCompetion.getId()).start();
+	}
 
 	@UiThread
 	public void onDataLoaded(boolean success) {
@@ -63,18 +78,34 @@ public class CompetitionFragment extends Fragment {
 
 		loadingTextView.setVisibility(View.GONE);
 		loadingProgressBar.setVisibility(View.GONE);
+		loadingLapTextView.setVisibility(View.GONE);
 
 		mListView.setVisibility(View.VISIBLE);
 
+	}
+	
+	@UiThread
+	public void updateInformation(int competitionNumber, int lapNumber){
+		loadingTextView.setText(getResources().getString(R.string.loading_competition).replace("$i$", competitionNumber+""));
+		if(loadingLapTextView.getVisibility() == View.GONE || loadingLapTextView.getVisibility() == View.INVISIBLE){
+			loadingLapTextView.setVisibility(View.VISIBLE);
+		}
+		loadingLapTextView.setText(getResources().getString(R.string.loading_lap).replace("$i$", lapNumber+""));
+	}
+	
+	@UiThread
+	public void updateWriteToDatabase(){
+		loadingLapTextView.setVisibility(View.GONE);
+		loadingTextView.setText(getResources().getString(R.string.loading_database));
 	}
 
 	@Background
 	public void readData() {
 		boolean success = true;
 		try {
-			competitionDao = ((SccApplication) getActivity().getApplication()).competitonDao;
-			lapDao = ((SccApplication) getActivity().getApplication()).lapDao;
-			lapEntryDao = ((SccApplication) getActivity().getApplication()).lapEntryDao;
+			competitionDao = mApplication.competitonDao;
+			lapDao = mApplication.lapDao;
+			lapEntryDao = mApplication.lapEntryDao;
 
 			if (competitionDao.count() > 0) {
 				// Data is already loaded...
@@ -104,6 +135,8 @@ public class CompetitionFragment extends Fragment {
 			currentLap.setLapNumber(1);
 			currentLap.setCompetitionNumber(1);
 
+			updateInformation(currentCompetitionNumber, 1);
+			
 			String line[] = reader.readNext();
 			while (line != null) {
 
@@ -118,6 +151,7 @@ public class CompetitionFragment extends Fragment {
 						competitions.add(currentCompetition);
 
 						currentCompetitionNumber = Integer.parseInt(line[0]);
+						updateInformation(currentCompetitionNumber, 1);
 						currentCompetition = new Competition();
 						currentCompetition
 								.setCompetitionNumber(currentCompetitionNumber);
@@ -146,6 +180,7 @@ public class CompetitionFragment extends Fragment {
 						// laps = new ArrayList<Lap>();
 						currentLap = new Lap();
 						currentLap.setLapNumber(newLapNumber);
+						updateInformation(currentCompetitionNumber, newLapNumber);
 						currentLap
 								.setCompetitionNumber(currentCompetitionNumber);
 					}
@@ -180,6 +215,7 @@ public class CompetitionFragment extends Fragment {
 			competitionNumber_lap.put(currentLap.getCompetitionNumber() + "",
 					laps);
 			// debugData(competitions);
+			updateWriteToDatabase();
 			writeToDatabase(competitions, competitionNumber_lap, lap_lapEntries);
 			// debugData(competitionDao.loadAll());
 		} catch (Exception e) {

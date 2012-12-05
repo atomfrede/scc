@@ -7,6 +7,12 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
     
+    <string name="loading">Loading. Please be patient.</string>
     <string name="competition_heading_text">Competition No. $i$</string>
+    <string name="loading_competition">Loading Competition No. $i$</string>
+    <string name="loading_lap">Loading Lap No. $i$</string>
+    <string name="loading_database">Writing Database</string>
+    <string name="lap_header">Lap $i$</string>
+    <string name="lane">Lane $i$</string>
 
 </resources>

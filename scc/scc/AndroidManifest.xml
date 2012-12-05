@@ -11,7 +11,7 @@
 
     <application
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" android:name=".application.SccApplication_">
+        android:label="@string/app_name" android:name=".application.SccApplication_" android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
         <activity android:name="de.atomfrede.android.scc.MainActivity_" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,6 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".lap.LapActivity_"></activity>
 
     </application>
 
