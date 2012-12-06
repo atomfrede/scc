@@ -14,5 +14,6 @@
     <string name="loading_database">Writing Database</string>
     <string name="lap_header">Lap $i$</string>
     <string name="lane">Lane $i$</string>
+     <string name="menu_about">About</string>
 
 </resources>

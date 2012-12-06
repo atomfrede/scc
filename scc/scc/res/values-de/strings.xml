@@ -14,5 +14,6 @@
     <string name="loading_database">Schreibe Datenbank</string>
     <string name="lap_header">Lauf $i$</string>
     <string name="lane">Bahn $i$</string>
+    <string name="menu_about">Über</string>
 
 </resources>

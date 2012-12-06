@@ -21,11 +21,19 @@ package de.atomfrede.android.scc;
 import android.support.v4.app.FragmentActivity;
 
 import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.OptionsItem;
+import com.googlecode.androidannotations.annotations.OptionsMenu;
 
+@OptionsMenu(R.menu.activity_main)
 @EActivity(R.layout.activity_main)
 public class MainActivity extends FragmentActivity {
 
     private static String TAG = "scc";
+    
+    @OptionsItem(R.id.menu_about)
+    public void showAboutMenu(){
+    	
+    }
 
    
 
