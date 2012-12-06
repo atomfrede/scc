@@ -28,6 +28,14 @@
 </script>
   </head>
   <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/de_DE/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
     <div class="wrapper">
       <header class="without-description">
         
@@ -57,8 +65,28 @@ Coming soon...
 </p>
 <p>
 <div class="g-plusone" data-size="medium" data-href="http://atomfrede.github.com/scc/"></div>
+
+<div class="fb-like" data-href="http://atomfrede.github.com/scc/" data-send="false" data-layout="button_count" data-width="250" data-show-faces="false"></div>
+
 <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://atomfrede.github.com/scc/" data-text="Die Sprintercup Companion App zeigt dir das Meldeergbnis auf deinem Smartphone." data-via="atomfrede" data-lang="de">Twittern</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+<div id="identica-share-button">
+
+<div class="btn-o"><!-- Button -->
+<a class="btn" href="javascript:var%20requesturl=new%20XMLHttpRequest();var%20geturl;var%20shortenedurl;requesturl.onload=function(){var%20json=requesturl.responseText;geturl=eval('('%20+%20json%20+%20')');shortenedurl=geturl.shorturl;shortenedurl=shortenedurl.replace('http://',%20'');};requesturl.open('GET','http://is.gd/create.php?format=json&amp;url='+document.location.href,%20false);requesturl.send();/*Encode%20the%20title*/var%20d=document,%20e=window.getSelection,%20k=d.getSelection,%20x=d.selection,%20s=(e?e():(k)?k():(x?x.createRange().text:0)),%20l=d.location,%20e=encodeURIComponent,%20pagetitle=((e(s))?e(s):e(d.title));/*Your%20Identi.ca%20username*/var%20username='@influencepc';/*Build%20the%20url%20for%20the%20new%20window*/var%20status='http://identi.ca/index.php?action=newnotice&amp;status_textarea='+pagetitle+'%20'+shortenedurl+'%20'+username;/*Build%20the%20new%20window*/if(!window.open(status,'t','toolbar=0,resizable=0,scrollbars=0,status=0,width=785,height=480')){l.href=status;}void(0);">
+<i></i>
+<span class="label">Identi.ca</span>
+</a>
+</div><!-- /Button --><!-- Counter --><div class="count-o">
+<i></i>
+<u></u>
+<a id="count" aria-describedby="count-desc" href="javascript:document.location.href='http://identi.ca/search/notice?q='+document.title;" title="Cette page a été partagée. Voir ces messages.">0</a>
+</div>
+<!-- /Counter -->
+
+</div>
+<!-- /identica-share-button -->
 </p>
 <!--<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
 
