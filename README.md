@@ -1,5 +1,7 @@
-SCC - Swimming Cup Companion App
+SCC - Sprintercup Companion App
 ========
+
+For details see <http://atomfrede.github.com/scc/>
 
 License
 ========
