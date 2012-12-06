@@ -58,10 +58,7 @@ public class LapFragment extends Fragment {
 
 		@Override
 		public Fragment getItem(int position) {
-			LapEntryFragment entryFragment = new LapEntryFragment();
-			entryFragment.setLapEntries(context, laps.get(position).getLapEntryList());
-			
-			return entryFragment;
+			return LapEntryFragment.newInstance(laps.get(position).getId());
 		}
 
 		@Override
@@ -70,7 +67,7 @@ public class LapFragment extends Fragment {
 		}
 		
 		public CharSequence getPageTitle(int position){
-			return getActivity().getResources().getString(R.string.lap_header).replace("$i$", position+"");
+			return getActivity().getResources().getString(R.string.lap_header).replace("$i$", position+1+"");
 		}
 
 	}
