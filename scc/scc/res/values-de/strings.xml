@@ -9,7 +9,7 @@
     
     <string name="loading">Lade Daten. Bitte einen Augenblick Geduld.</string>
     <string name="competition_heading_text">Wettkampf Nr. $i$</string>
-    <string name="loading_competition">Lade Wettkampg Nr. $i$</string>
+    <string name="loading_competition">Lade Wettkampf Nr. $i$</string>
     <string name="loading_lap">Lade Lauf Nr. $i$</string>
     <string name="loading_database">Schreibe Datenbank</string>
     <string name="lap_header">Lauf $i$</string>

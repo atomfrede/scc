@@ -33,6 +33,10 @@ public class LapEntryListAdapter extends ArrayAdapter<LapEntry> {
 
 	static class ViewHolder {
 		public TextView laneText;
+		public TextView nameText;
+		public TextView yearText;
+		public TextView clubText;
+		public TextView timeText;
 	}
 	
 	public final Activity context;
@@ -53,13 +57,21 @@ public class LapEntryListAdapter extends ArrayAdapter<LapEntry> {
 			ViewHolder viewHolder = new ViewHolder();
 			viewHolder.laneText = (TextView) rowView
 					.findViewById(R.id.lane_text);
+			viewHolder.nameText = (TextView)rowView.findViewById(R.id.name_text);
+			viewHolder.yearText = (TextView)rowView.findViewById(R.id.year_text);
+			viewHolder.clubText = (TextView)rowView.findViewById(R.id.club_text);
+			viewHolder.timeText = (TextView)rowView.findViewById(R.id.time_text);
 			rowView.setTag(viewHolder);
 		}
 		
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		
 		LapEntry cEntry = objects.get(position);
-		holder.laneText.setText(cEntry.toString());
+		holder.laneText.setText(context.getResources().getString(R.string.lane).replace("$i$", cEntry.getLane()+""));
+		holder.timeText.setText(cEntry.getTime());
+		holder.nameText.setText(cEntry.getFirstname()+" "+cEntry.getLastname());
+		holder.clubText.setText(cEntry.getClub());
+		holder.yearText.setText("("+cEntry.getYear()+")");
 		
 		return rowView;
 	}

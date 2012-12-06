@@ -1,12 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
-    <TextView android:id="@+id/lane_text"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"/>
-    
+    android:orientation="vertical"
+    android:padding="5dp" >
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/lane_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lane"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lane_text"
+        android:layout_below="@+id/lane_text"
+        android:textSize="18sp"
+        android:text="Large Text" />
+
+    <TextView
+        android:id="@+id/year_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/name_text"
+        android:layout_alignBottom="@+id/name_text"
+        android:layout_toRightOf="@+id/name_text"
+        android:paddingLeft="3dp"
+        android:textSize="10sp"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/club_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name_text"
+        android:layout_below="@+id/name_text"
+        android:text="TextView"
+        android:textSize="12sp"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TextView
+        android:id="@+id/time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/lane_text"
+        android:layout_alignBottom="@+id/lane_text"
+        android:layout_alignRight="@+id/lane_text"
+        android:text="Medium Text"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+</RelativeLayout>
