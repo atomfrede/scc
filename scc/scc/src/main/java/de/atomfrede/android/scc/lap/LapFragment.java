@@ -1,3 +1,21 @@
+/*
+*	 SCC - The Sprintercup Companion App provides you with the Meldeergbnis right on your smartphone
+*    
+*    Copyright (C) 2012  Frederik Hahne <atomfrede@gmail.com>
+*
+*    This program is free software: you can redistribute it and/or modify
+*    it under the terms of the GNU General Public License as published by
+*    the Free Software Foundation, either version 3 of the License, or
+*    (at your option) any later version.
+*
+*    This program is distributed in the hope that it will be useful,
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*    GNU General Public License for more details.
+*
+*    You should have received a copy of the GNU General Public License
+*    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 package de.atomfrede.android.scc.lap;
 
 import java.util.List;
@@ -7,10 +25,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
-import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.App;
 import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.FragmentArg;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.viewpagerindicator.TitlePageIndicator;
 
@@ -31,13 +50,20 @@ public class LapFragment extends Fragment {
 	@ViewById(R.id.titles)
 	TitlePageIndicator mIndicator;
 	
-	long competitionId;
+	@FragmentArg("competitionId")
+	public long competitionId;
 	
 	LapPagerAdapter mPagerAdapter;
 
-	public void setCompetitionId(Activity context, long competitionId){
-		this.competitionId = competitionId;
-		mPagerAdapter = new LapPagerAdapter(getFragmentManager(), this.competitionId, context);
+//	public void setCompetitionId(Activity context, long competitionId){
+//		this.competitionId = competitionId;
+//		mPagerAdapter = new LapPagerAdapter(getFragmentManager(), this.competitionId, context);
+//		mPager.setAdapter(mPagerAdapter);
+//		mIndicator.setViewPager(mPager);
+//	}
+	
+	public void initPager(){
+		mPagerAdapter = new LapPagerAdapter(getFragmentManager(), this.competitionId, this.getActivity());
 		mPager.setAdapter(mPagerAdapter);
 		mIndicator.setViewPager(mPager);
 	}
@@ -51,6 +77,7 @@ public class LapFragment extends Fragment {
 		public LapPagerAdapter(FragmentManager fm, long competitionId, Activity context){
 			super(fm);
 			competitionDao = mApplication.competitonDao;
+			Log.d("LapFragment", competitionDao+ " "+competitionId);
 			laps = competitionDao.load(competitionId).getLapList();
 			this.context = context;
 			
