@@ -5,7 +5,7 @@
 
     <groupId>de.atomfrede.android</groupId>
     <artifactId>scc-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>scc - Parent</name>
 
@@ -30,7 +30,7 @@
 	<android.platform>16</android.platform>
 	<android-maven.version>3.4.0</android-maven.version>
 	<junit.version>4.10</junit.version>
-	<project.codeVersion>1</project.codeVersion>
+	<project.codeVersion>2</project.codeVersion>
     </properties>
 
     <dependencyManagement>
