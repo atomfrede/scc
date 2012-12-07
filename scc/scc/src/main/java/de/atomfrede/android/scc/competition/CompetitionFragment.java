@@ -1,21 +1,21 @@
 /*
-*	 SCC - The Sprintercup Companion App provides you with the Meldeergbnis right on your smartphone
-*    
-*    Copyright (C) 2012  Frederik Hahne <atomfrede@gmail.com>
-*
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *	 SCC - The Sprintercup Companion App provides you with the Meldeergbnis right on your smartphone
+ *    
+ *    Copyright (C) 2012  Frederik Hahne <atomfrede@gmail.com>
+ *
+ *    This program is free software: you can redistribute it and/or modify
+ *    it under the terms of the GNU General Public License as published by
+ *    the Free Software Foundation, either version 3 of the License, or
+ *    (at your option) any later version.
+ *
+ *    This program is distributed in the hope that it will be useful,
+ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *    GNU General Public License for more details.
+ *
+ *    You should have received a copy of the GNU General Public License
+ *    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package de.atomfrede.android.scc.competition;
 
 import java.io.InputStream;
@@ -58,14 +58,14 @@ public class CompetitionFragment extends Fragment {
 
 	@App
 	SccApplication mApplication;
-	
+
 	CompetitionDao competitionDao;
 	LapDao lapDao;
 	LapEntryDao lapEntryDao;
 
 	@ViewById(R.id.loading_text)
 	TextView loadingTextView;
-	
+
 	@ViewById(R.id.loading_lap_text)
 	TextView loadingLapTextView;
 
@@ -81,17 +81,16 @@ public class CompetitionFragment extends Fragment {
 	public void init() {
 		readData();
 	}
-	
+
 	@ItemClick(R.id.competion_list)
 	public void myListItemClicked(int position) {
 		Competition clickedCompetion = mAdapater.getItem(position);
-		LapActivity_.intent(this.getActivity()).competionNumber(clickedCompetion.getCompetitionNumber()+"").competitionName(clickedCompetion.getName()).selectedCompetionId(clickedCompetion.getId()).start();
+		LapActivity_.intent(this.getActivity()).competionNumber(clickedCompetion.getCompetitionNumber() + "").competitionName(clickedCompetion.getName()).selectedCompetionId(clickedCompetion.getId()).start();
 	}
 
 	@UiThread
 	public void onDataLoaded(boolean success) {
-		mAdapater = new ListItemAdapter(this.getActivity(),
-				competitionDao.loadAll());
+		mAdapater = new ListItemAdapter(this.getActivity(), competitionDao.loadAll());
 		mListView.setAdapter(mAdapater);
 
 		loadingTextView.setVisibility(View.GONE);
@@ -101,18 +100,18 @@ public class CompetitionFragment extends Fragment {
 		mListView.setVisibility(View.VISIBLE);
 
 	}
-	
+
 	@UiThread
-	public void updateInformation(int competitionNumber, int lapNumber){
-		loadingTextView.setText(getResources().getString(R.string.loading_competition).replace("$i$", competitionNumber+""));
-		if(loadingLapTextView.getVisibility() == View.GONE || loadingLapTextView.getVisibility() == View.INVISIBLE){
+	public void updateInformation(int competitionNumber, int lapNumber) {
+		loadingTextView.setText(getResources().getString(R.string.loading_competition).replace("$i$", competitionNumber + ""));
+		if (loadingLapTextView.getVisibility() == View.GONE || loadingLapTextView.getVisibility() == View.INVISIBLE) {
 			loadingLapTextView.setVisibility(View.VISIBLE);
 		}
-		loadingLapTextView.setText(getResources().getString(R.string.loading_lap).replace("$i$", lapNumber+""));
+		loadingLapTextView.setText(getResources().getString(R.string.loading_lap).replace("$i$", lapNumber + ""));
 	}
-	
+
 	@UiThread
-	public void updateWriteToDatabase(){
+	public void updateWriteToDatabase() {
 		loadingLapTextView.setVisibility(View.GONE);
 		loadingTextView.setText(getResources().getString(R.string.loading_database));
 	}
@@ -134,27 +133,44 @@ public class CompetitionFragment extends Fragment {
 			InputStream in = getResources().openRawResource(R.raw.me_2012);
 			CSVReader reader = new CSVReader(new InputStreamReader(in, "Cp1252"), ';');
 
-			int currentCompetitionNumber = 1;
+			Integer currentCompetitionNumber = null;
+			Integer currentLapNumber = null;
 
+			/**
+			 * List of all Competitions
+			 */
 			List<Competition> competitions = new ArrayList<Competition>();
+			/**
+			 * Mapping from competition number to all laps for that competition
+			 */
 			Map<String, List<Lap>> competitionNumber_lap = new HashMap<String, List<Lap>>();
+
+			/**
+			 * List of all laps for a competitions
+			 */
 			List<Lap> laps = new ArrayList<Lap>();
-			Map<Lap, List<LapEntry>> lap_lapEntries = new HashMap<Lap, List<LapEntry>>();
+
+			/**
+			 * Mapping from competitionNumber_lapNumber to all LapEntries for
+			 * that specific lap, which can be determined by cNumber and
+			 * lapnumber
+			 */
+			Map<String, List<LapEntry>> lap_comp_number_lapEntries = new HashMap<String, List<LapEntry>>();
+
+			/**
+			 * List of all lap entries for one lap
+			 */
 			List<LapEntry> lapEntries = new ArrayList<LapEntry>();
 
 			Competition currentCompetition = new Competition();
-
-			currentCompetition.setCompetitionNumber(Integer
-					.valueOf(currentCompetitionNumber));
-
-			// competitionDao.insert(currentCompetition);
+			Competition oldCompetition = new Competition();
 
 			Lap currentLap = new Lap();
-			currentLap.setLapNumber(1);
-			currentLap.setCompetitionNumber(1);
+			Lap oldLap = new Lap();
 
-			updateInformation(currentCompetitionNumber, 1);
-			
+
+			// updateInformation(currentCompetitionNumber, 1);
+
 			String line[] = reader.readNext();
 			while (line != null) {
 
@@ -162,79 +178,98 @@ public class CompetitionFragment extends Fragment {
 					// Not reading the header line
 					// First check if we need to create a new competition
 					// element
-					if (Integer.parseInt(line[0]) != currentCompetitionNumber) {
-						currentCompetition.setName(line[3]);
-						// Add the complete competition (=WK) to our list of
-						// competitions
-						competitions.add(currentCompetition);
-
-						currentCompetitionNumber = Integer.parseInt(line[0]);
-						updateInformation(currentCompetitionNumber, 1);
-						currentCompetition = new Competition();
-						currentCompetition
-								.setCompetitionNumber(currentCompetitionNumber);
-
-						// Also create the first lap for the new competition
-						currentLap = new Lap();
-						currentLap.setLapNumber(1);
-						currentLap
-								.setCompetitionNumber(currentCompetitionNumber);
-						laps = new ArrayList<Lap>();
-
-					}
-					// Now read the next lap for the current competion
-					int newLapNumber = Integer.parseInt(line[1]);
-					if (newLapNumber != currentLap.getLapNumber()) {
-						// New Lap must be created, otherwise use the currentlap
-						// If we have a new lap we must add the old lap to the
-						// list of laps of the current competion
-						// currentCompetition.getLapList().add(currentLap);
-						laps.add(currentLap);
-
-						competitionNumber_lap.put(
-								currentLap.getCompetitionNumber() + "", laps);
-						lap_lapEntries.put(currentLap, lapEntries);
-						lapEntries = new ArrayList<LapEntry>();
-						// laps = new ArrayList<Lap>();
-						currentLap = new Lap();
-						currentLap.setLapNumber(newLapNumber);
-						updateInformation(currentCompetitionNumber, newLapNumber);
-						currentLap
-								.setCompetitionNumber(currentCompetitionNumber);
-					}
-
-					// Now read the entry for the current competition and
-					// current lap
-
+					String competitionNumberText = line[0];
+					String lapNumberText = line[1];
+					String competitionName = line[3];
 					String firstname = line[6];
 					String lastname = line[7];
 					String year = line[8];
 					String club = line[9];
 					String time = line[10];
+
 					int lane = Integer.parseInt(line[2]);
 
+					int competitionNumber = Integer.parseInt(competitionNumberText);
+					int lapNumber = Integer.parseInt(lapNumberText);
+
+					updateInformation(competitionNumber, lapNumber);
+
 					LapEntry entry = new LapEntry();
+					entry.setCompetitionNumber(competitionNumber);
+					entry.setLapNumber(lapNumber);
 					entry.setFirstname(firstname);
+					entry.setLane(lane);
 					entry.setLastname(lastname);
 					entry.setClub(club);
 					entry.setTime(time);
 					entry.setYear(year);
-					entry.setLane(lane);
 
-					// Log.d(TAG, entry.toString());
-					lapEntries.add(entry);
-					// currentLap.getLapEntryList().add(entry);
+					String key = competitionNumber + "_" + lapNumber;
 
+					// Inital Check
+					if (currentCompetition.getCompetitionNumber() == null) {
+						currentCompetition.setCompetitionNumber(competitionNumber);
+						currentCompetition.setName(competitionName);
+						oldCompetition = currentCompetition;
+						competitions.add(currentCompetition);
+						competitionNumber_lap.put(currentCompetition.getCompetitionNumber() + "", laps);
+					} else {
+						currentCompetition = new Competition();
+						currentCompetition.setCompetitionNumber(competitionNumber);
+						currentCompetition.setName(competitionName);
+					}
+					if (currentLap.getLapNumber() == null) {
+						currentLap.setCompetitionNumber(competitionNumber);
+						currentLap.setLapNumber(lapNumber);
+						lap_comp_number_lapEntries.put(key, lapEntries);
+						laps.add(currentLap);
+						oldLap = currentLap;
+					} else {
+						currentLap = new Lap();
+						currentLap.setCompetitionNumber(competitionNumber);
+						currentLap.setLapNumber(lapNumber);
+					}
+
+					if (currentCompetition.getCompetitionNumber().equals(oldCompetition.getCompetitionNumber())) {
+
+						if (currentLap.getLapNumber().equals(oldLap.getLapNumber())) {
+							lapEntries.add(entry);
+						} else {
+							laps.add(currentLap);
+							lapEntries = new ArrayList<LapEntry>();
+							lapEntries.add(entry);
+							lap_comp_number_lapEntries.put(key, lapEntries);
+						}
+
+					} else {
+						competitions.add(currentCompetition);
+						// line is a new competition
+						laps = new ArrayList<Lap>();
+						lapEntries = new ArrayList<LapEntry>();
+
+						laps.add(currentLap);
+						competitionNumber_lap.put(currentCompetition.getCompetitionNumber() + "", laps);
+
+						lapEntries.add(entry);
+						lap_comp_number_lapEntries.put(key, lapEntries);
+						// lap_lapEntries.put(currentLap, lapEntries);
+
+					}
 				}
+
+				oldCompetition = currentCompetition;
+				oldLap = currentLap;
+
 				line = reader.readNext();
+
 			}
 
 			laps.add(currentLap);
-			competitionNumber_lap.put(currentLap.getCompetitionNumber() + "",
-					laps);
+			competitionNumber_lap.put(currentLap.getCompetitionNumber() + "", laps);
 			// debugData(competitions);
 			updateWriteToDatabase();
-			writeToDatabase(competitions, competitionNumber_lap, lap_lapEntries);
+
+			writeToDatabase(competitions, competitionNumber_lap, lap_comp_number_lapEntries);
 			// debugData(competitionDao.loadAll());
 		} catch (Exception e) {
 			Log.d(TAG, "Error During parsign data: " + e.getMessage(), e);
@@ -244,9 +279,7 @@ public class CompetitionFragment extends Fragment {
 		}
 	}
 
-	private void writeToDatabase(List<Competition> competitions,
-			Map<String, List<Lap>> competitionNumber_lap,
-			Map<Lap, List<LapEntry>> lap_lapentries) {
+	private void writeToDatabase(List<Competition> competitions, Map<String, List<Lap>> competitionNumber_lap, Map<String, List<LapEntry>> lap_lapentries) {
 
 		competitionDao.insertInTx(competitions);
 		List<Competition> dbCompetitions = competitionDao.loadAll();
@@ -254,39 +287,49 @@ public class CompetitionFragment extends Fragment {
 		List<LapEntry> allEntries = new ArrayList<LapEntry>();
 		List<LapEntry> allDbEntries = new ArrayList<LapEntry>();
 
+
 		for (Competition dbCompetition : dbCompetitions) {
 			long id = dbCompetition.getId();
-			// Log.d(TAG,
-			// "Checking laps for Competition Nr. "+dbCompetition.getCompetitionNumber()+": "+dbCompetition.getName());
-			List<Lap> laps = competitionNumber_lap.get(dbCompetition
-					.getCompetitionNumber() + "");
-
+			List<Lap> laps = competitionNumber_lap.get(dbCompetition.getCompetitionNumber() + "");
 			if (laps != null) {
 				// Log.d(TAG, "Laps size is "+laps.size());
 				for (Lap cLap : laps) {
-					// Log.d(TAG,
-					// "Adding Lap "+cLap.getLapNumber()+" in Competition "+cLap.getCompetitionNumber());
-					List<LapEntry> entriesForLap = lap_lapentries.get(cLap);
-					// Log.d(TAG, "Entries for Lap "+entriesForLap.size());
-					allEntries.addAll(entriesForLap);
+
 					cLap.setCompetition(dbCompetition);
 					cLap.setCompetitionId(id);
-
 					allLaps.add(cLap);
+
+					String key = cLap.getCompetitionNumber() + "_" + cLap.getLapNumber();
+					List<LapEntry> entriesForLap = lap_lapentries.get(key);
+
+					
+					if (entriesForLap != null) {
+						allEntries.addAll(entriesForLap);
+					} else {
+
+					}
+
 				}
 			} else {
 				Log.d(TAG, "Laps *IS* Null");
 			}
 		}
+
 		lapDao.insertInTx(allLaps);
 
 		for (Lap dbLap : lapDao.loadAll()) {
-			List<LapEntry> entriesForDbLap = lap_lapentries.get(dbLap);
-			// Log.d(TAG, "LapEntries for DB Lap "+entriesForDbLap.size());
-			for (LapEntry cEntry : entriesForDbLap) {
-				cEntry.setLapId(dbLap.getId());
-				allDbEntries.add(cEntry);
+
+			String key = dbLap.getCompetitionNumber() + "_" + dbLap.getLapNumber();
+			List<LapEntry> entriesForDbLap = lap_lapentries.get(key);
+			if (entriesForDbLap != null) {
+				for (LapEntry cEntry : entriesForDbLap) {
+					cEntry.setLap(dbLap);
+					cEntry.setCompetitionNumber(dbLap.getCompetitionNumber());
+					cEntry.setLapId(dbLap.getId());
+					allDbEntries.add(cEntry);
+				}
 			}
+
 		}
 
 		lapEntryDao.insertInTx(allDbEntries);
@@ -296,8 +339,8 @@ public class CompetitionFragment extends Fragment {
 	private void debugData(List<Competition> competitionList) {
 		for (Competition cComp : competitionList) {
 			cComp.resetLapList();
-			Log.d(TAG, "Competition: " + cComp.getCompetitionNumber() + " "
-					+ cComp.getName());
+			// Log.d(TAG, "Competition: " + cComp.getCompetitionNumber() + " "
+			// + cComp.getName());
 			writeLaps(cComp.getLapList());
 		}
 	}
@@ -307,11 +350,7 @@ public class CompetitionFragment extends Fragment {
 			cLap.resetLapEntryList();
 			Log.d(TAG, "Lap " + cLap.getLapNumber());
 			for (LapEntry cEntry : cLap.getLapEntryList()) {
-				Log.d(TAG,
-						" " + cEntry.getFirstname() + " "
-								+ cEntry.getLastname() + " " + cEntry.getYear()
-								+ " " + cEntry.getClub() + " "
-								+ cEntry.getTime());
+				Log.d(TAG, " " + cEntry.getFirstname() + " " + cEntry.getLastname() + " " + cEntry.getYear() + " " + cEntry.getClub() + " " + cEntry.getTime());
 			}
 		}
 	}

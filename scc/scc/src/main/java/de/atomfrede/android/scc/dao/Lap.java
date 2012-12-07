@@ -166,6 +166,15 @@ public class Lap implements Comparable<Lap> {
     }
 
     // KEEP METHODS - put your custom methods here
+    
+    @Override
+    public int hashCode() {
+    	int hash = 1;
+    	hash = hash * 17 * competitionNumber.intValue();
+    	hash = hash * 31 * lapNumber.intValue();
+    	return hash;
+    }
+    
     public int compareTo(Lap another) {
     	if(this.competitionNumber.equals(another.competitionNumber) && this.lapNumber.equals(another.getLapNumber()))
     		return 0;
