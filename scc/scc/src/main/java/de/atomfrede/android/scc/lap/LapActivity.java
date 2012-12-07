@@ -18,7 +18,10 @@
  */
 package de.atomfrede.android.scc.lap;
 
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 
 import com.googlecode.androidannotations.annotations.AfterInject;
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -30,6 +33,7 @@ import com.googlecode.androidannotations.annotations.OptionsItem;
 import com.googlecode.androidannotations.annotations.OptionsMenu;
 
 import de.atomfrede.android.scc.R;
+import de.atomfrede.android.scc.about.AboutDialogFragment;
 import de.atomfrede.android.scc.application.SccApplication;
 import de.atomfrede.android.scc.dao.Competition;
 import de.atomfrede.android.scc.dao.CompetitionDao;
@@ -67,9 +71,7 @@ public class LapActivity extends FragmentActivity {
 
 	@AfterViews
 	public void afterViews() {
-		getActionBar().setTitle(
-				getResources().getString(R.string.competition_heading_text)
-						.replace("$i$", competionNumber));
+		getActionBar().setTitle(getResources().getString(R.string.competition_heading_text).replace("$i$", competionNumber));
 		getActionBar().setSubtitle(competitionName);
 
 		mLapFragment.competitionId = selectedCompetionId;
@@ -79,6 +81,16 @@ public class LapActivity extends FragmentActivity {
 
 	@OptionsItem(R.id.menu_about)
 	public void showAboutMenu() {
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		Fragment prev = getSupportFragmentManager().findFragmentByTag("about_dialog");
+		if (prev != null) {
+			ft.remove(prev);
+		}
+		ft.addToBackStack(null);
 
+		// Create and show the dialog.
+		DialogFragment newFragment = AboutDialogFragment.newInstance();
+
+		newFragment.show(ft, "about_dialog");
 	}
 }

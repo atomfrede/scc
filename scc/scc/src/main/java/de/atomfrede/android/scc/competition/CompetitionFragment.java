@@ -25,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.impl.client.DefaultTargetAuthenticationHandler;
+
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
@@ -56,6 +58,10 @@ public class CompetitionFragment extends Fragment {
 
 	private static final String TAG = "Scc:CompetitionFragment";
 
+	public static final int DATABASE_COMPETIONS = 0;
+	public static final int DATABASE_LAPS = 1;
+	public static final int DATABASE_LAP_ENTRIES = 2;
+	
 	@App
 	SccApplication mApplication;
 
@@ -114,6 +120,23 @@ public class CompetitionFragment extends Fragment {
 	public void updateWriteToDatabase() {
 		loadingLapTextView.setVisibility(View.GONE);
 		loadingTextView.setText(getResources().getString(R.string.loading_database));
+	}
+	
+	@UiThread
+	public void updateWriteDatabaseStep(int databaseStep){
+		switch (databaseStep) {
+		case DATABASE_COMPETIONS:
+			loadingLapTextView.setVisibility(View.VISIBLE);
+			loadingLapTextView.setText(getResources().getString(R.string.loading_database_competitions));
+			break;
+		case DATABASE_LAPS:
+			loadingLapTextView.setText(getResources().getString(R.string.loading_database_laps));
+			break;
+		case DATABASE_LAP_ENTRIES:
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Background
@@ -280,7 +303,8 @@ public class CompetitionFragment extends Fragment {
 	}
 
 	private void writeToDatabase(List<Competition> competitions, Map<String, List<Lap>> competitionNumber_lap, Map<String, List<LapEntry>> lap_lapentries) {
-
+		updateWriteDatabaseStep(DATABASE_COMPETIONS);
+		
 		competitionDao.insertInTx(competitions);
 		List<Competition> dbCompetitions = competitionDao.loadAll();
 		List<Lap> allLaps = new ArrayList<Lap>();
@@ -314,7 +338,8 @@ public class CompetitionFragment extends Fragment {
 				Log.d(TAG, "Laps *IS* Null");
 			}
 		}
-
+		
+		updateWriteDatabaseStep(DATABASE_LAPS);
 		lapDao.insertInTx(allLaps);
 
 		for (Lap dbLap : lapDao.loadAll()) {
@@ -332,6 +357,7 @@ public class CompetitionFragment extends Fragment {
 
 		}
 
+		updateWriteDatabaseStep(DATABASE_LAP_ENTRIES);
 		lapEntryDao.insertInTx(allDbEntries);
 
 	}
