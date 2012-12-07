@@ -111,7 +111,19 @@
                     </configuration>
 		    <extensions>true</extensions>
                 	<executions>
-		        
+		                 <execution>
+                                        <id>update-manifest</id>
+                                        <phase>install</phase>        
+                                        <goals>
+                                                <goal>manifest-update</goal>
+                                        </goals>
+                                        <configuration>
+                                                <manifest>
+                                                <versionName>${project.version}</versionName>
+                                                <versionCode>${project.codeVersion}</versionCode>
+                                        </manifest>
+                                        </configuration>
+                                </execution>
 				<execution>
 			    		<id>alignApk</id>
 			    		<phase>install</phase>
