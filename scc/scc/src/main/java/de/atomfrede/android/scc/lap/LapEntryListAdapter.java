@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import de.atomfrede.android.scc.R;
 import de.atomfrede.android.scc.dao.LapEntry;
@@ -37,6 +38,7 @@ public class LapEntryListAdapter extends ArrayAdapter<LapEntry> {
 		public TextView yearText;
 		public TextView clubText;
 		public TextView timeText;
+		public ImageView doneMarkerImageView;
 	}
 	
 	public final Activity context;
@@ -61,17 +63,33 @@ public class LapEntryListAdapter extends ArrayAdapter<LapEntry> {
 			viewHolder.yearText = (TextView)rowView.findViewById(R.id.year_text);
 			viewHolder.clubText = (TextView)rowView.findViewById(R.id.club_text);
 			viewHolder.timeText = (TextView)rowView.findViewById(R.id.time_text);
+			viewHolder.doneMarkerImageView = (ImageView)rowView.findViewById(R.id.done_marker_image);
 			rowView.setTag(viewHolder);
 		}
 		
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		
+		//android:textColor="@android:color/secondary_text_light_nodisable"
 		LapEntry cEntry = objects.get(position);
+		boolean isDone = false;
+		if(cEntry.getLap().getIsDone()){
+			isDone = true;
+		}
 		holder.laneText.setText(context.getResources().getString(R.string.lane).replace("$i$", cEntry.getLane()+""));
 		holder.timeText.setText(cEntry.getTime());
 		holder.nameText.setText(cEntry.getFirstname()+" "+cEntry.getLastname());
 		holder.clubText.setText(cEntry.getClub());
 		holder.yearText.setText("("+cEntry.getYear()+")");
+		holder.doneMarkerImageView.setVisibility(View.GONE);
+		
+		if(isDone){
+			holder.laneText.setTextColor(android.R.color.secondary_text_light_nodisable);
+			holder.timeText.setTextColor(android.R.color.secondary_text_light_nodisable);
+			holder.nameText.setTextColor(android.R.color.secondary_text_light_nodisable);
+			holder.clubText.setTextColor(android.R.color.secondary_text_light_nodisable);
+			holder.yearText.setTextColor(android.R.color.secondary_text_light_nodisable);
+			holder.doneMarkerImageView.setVisibility(View.VISIBLE);
+		}
 		
 		return rowView;
 	}

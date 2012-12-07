@@ -54,4 +54,12 @@
         android:text="Medium Text"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <ImageView
+        android:id="@+id/done_marker_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/club_text"
+        android:layout_alignRight="@+id/lane_text"
+        android:src="@drawable/ic_navigation_accept_light" />
+
 </RelativeLayout>

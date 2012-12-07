@@ -18,10 +18,12 @@
  */
 package de.atomfrede.android.scc.lap;
 
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.googlecode.androidannotations.annotations.AfterInject;
 import com.googlecode.androidannotations.annotations.AfterViews;
@@ -38,7 +40,7 @@ import de.atomfrede.android.scc.application.SccApplication;
 import de.atomfrede.android.scc.dao.Competition;
 import de.atomfrede.android.scc.dao.CompetitionDao;
 
-@OptionsMenu(R.menu.activity_main)
+@OptionsMenu(R.menu.activity_lap)
 @EActivity(R.layout.activity_lap)
 public class LapActivity extends FragmentActivity {
 
@@ -76,7 +78,11 @@ public class LapActivity extends FragmentActivity {
 
 		mLapFragment.competitionId = selectedCompetionId;
 		mLapFragment.initPager();
-		// mLapFragment.setCompetitionId(this, selectedCompetionId);
+	}
+
+	@OptionsItem(R.id.menu_mark_as_done)
+	public void markAsDone() {
+		mLapFragment.markAsDone();
 	}
 
 	@OptionsItem(R.id.menu_about)
@@ -93,4 +99,5 @@ public class LapActivity extends FragmentActivity {
 
 		newFragment.show(ft, "about_dialog");
 	}
+
 }

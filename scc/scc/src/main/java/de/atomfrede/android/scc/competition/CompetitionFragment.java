@@ -133,6 +133,7 @@ public class CompetitionFragment extends Fragment {
 			loadingLapTextView.setText(getResources().getString(R.string.loading_database_laps));
 			break;
 		case DATABASE_LAP_ENTRIES:
+			loadingLapTextView.setText(getResources().getString(R.string.loading_database_participants));
 			break;
 		default:
 			break;
@@ -244,11 +245,13 @@ public class CompetitionFragment extends Fragment {
 					if (currentLap.getLapNumber() == null) {
 						currentLap.setCompetitionNumber(competitionNumber);
 						currentLap.setLapNumber(lapNumber);
+						currentLap.setIsDone(false);
 						lap_comp_number_lapEntries.put(key, lapEntries);
 						laps.add(currentLap);
 						oldLap = currentLap;
 					} else {
 						currentLap = new Lap();
+						currentLap.setIsDone(false);
 						currentLap.setCompetitionNumber(competitionNumber);
 						currentLap.setLapNumber(lapNumber);
 					}

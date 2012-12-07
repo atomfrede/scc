@@ -26,4 +26,6 @@
 	<string name="about_feedback">Feeback</string>
 	<string name="loading_database_competitions">Writing Competitions</string>
 	<string name="loading_database_laps">Writing Laps</string>
+	<string name="loading_database_participants">Writing Participants</string>
+	<string name="menu_mark_as_done">Marks as done</string>
 </resources>
