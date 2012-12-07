@@ -15,5 +15,17 @@
     <string name="lap_header">Lauf $i$</string>
     <string name="lane">Bahn $i$</string>
     <string name="menu_about">Über</string>
+    
+    <string name="link_homepage"><![CDATA[<a href="http://atomfrede.github.com/scc/">Homepage</a>]]></string>
+    <string name="link_android_annotations"><![CDATA[<a href="http://androidannotations.org/">Android Annotations</a>]]> by eBusiness Information released under Apache License 2.0</string>
+	<string name="link_viewpager_indicator"><![CDATA[<a href="http://viewpagerindicator.com/">ViewPagerIndicator</a>]]> by Jake Wharton released under Apache License 2.0</string>
+	<string name="link_viewpager_green_dao"><![CDATA[<a href="http://greendao-orm.com/">GreenDao ORM</a>]]> by greenrobot released under Apache License 2.0</string>
+	<string name="name_year">Copyright Frederik Hahne 2012</string>
+	<string name="license">Released under GPL v3</string>
+	<string name="oss">Open Source Libraries</string>
+	<string name="about_header">Über</string>
+	<string name="about_feedback">Feeback</string>
+	<string name="loading_database_competitions">Speichere Wettkämpfe</string>
+	<string name="loading_database_laps">Speichere Läufe</string>
 
 </resources>

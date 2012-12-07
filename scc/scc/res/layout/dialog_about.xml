@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="top"
+        android:layout_weight="1" >
+
+        <RelativeLayout
+            android:id="@+id/relative_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/app_name_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/imageView1"
+                android:layout_marginBottom="14dp"
+                android:layout_marginLeft="19dp"
+                android:layout_toRightOf="@+id/imageView1"
+                android:text="TextView"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/version_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/imageView1"
+                android:layout_below="@+id/imageView1"
+                android:layout_marginTop="16dp"
+                android:text="@string/oss" />
+
+            <TextView
+                android:id="@+id/name_year_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/version_text"
+                android:layout_below="@+id/version_text"
+                android:text="@string/name_year"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/license_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/name_year_text"
+                android:layout_below="@+id/name_year_text"
+                android:text="@string/license"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/homepage_link_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/license_text"
+                android:layout_below="@+id/license_text"
+                android:layout_marginTop="14dp"
+                android:text="Small Text"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/oss_library_header_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/homepage_link_text"
+                android:layout_below="@+id/homepage_link_text"
+                android:layout_marginTop="16dp"
+                android:text="@string/oss"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/android_annotations_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/oss_library_header_text"
+                android:layout_below="@+id/oss_library_header_text"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/viewpager_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/android_annotations_text"
+                android:layout_below="@+id/android_annotations_text"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/greendao_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/viewpager_text"
+                android:layout_below="@+id/viewpager_text"
+                android:text="TextView" />
+        </RelativeLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/feedback_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="bottom"
+        android:background="?android:attr/selectableItemBackground"
+        android:text="@string/about_feedback" >
+    </Button>
+
+</LinearLayout>
