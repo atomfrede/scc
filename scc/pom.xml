@@ -8,7 +8,14 @@
     <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>scc - Parent</name>
+    <url>http://atomfrede.github.com/scc/</url>
 
+        <licenses>
+          <license>
+            <name>GNU General Public License Version 3(GPL)</name>
+            <url>http://www.gnu.org/licenses/gpl.txt</url>
+          </license>
+        </licenses>
     <repositories>
     	<repository>
       		<id>atomfredes-repository</id>
@@ -20,6 +27,29 @@
         <module>scc</module>
         <module>scc-it</module>
     </modules>
+
+<scm>
+        <url>http://github.com/atomfrede/scc/</url>
+        <connection>scm:git:git://github.com/atomfrede/scc.git</connection>
+        <developerConnection>scm:git:git@github.com:atomfrede/scc.git</developerConnection>
+    </scm>
+
+        <developers>
+        <developer>
+            <name>Frederik Hahne</name>
+            <email>atomfrede@gmail.com</email>
+            <id>atomfrede</id>
+            <url></url>
+            <timezone></timezone>
+            <roles>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+     <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/atomfrede/scc/issues</url>
+    </issueManagement>
 
     <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

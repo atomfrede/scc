@@ -36,14 +36,16 @@
       <groupId>de.atomfrede.android</groupId>
       <artifactId>scc</artifactId>
       <type>apk</type>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>0.0.2-SNAPSHOT</version>
+<scope>provided</scope>
       <classifier>${zipaligned-classifier}</classifier> <!--  classifier set according to the ran profile -->
     </dependency>
     <dependency>
       <groupId>de.atomfrede.android</groupId>
       <artifactId>scc</artifactId>
       <type>jar</type>
-      <version>0.0.1-SNAPSHOT</version>
+<scope>provided</scope>
+      <version>0.0.2-SNAPSHOT</version>
     </dependency>
     <dependency>
        <groupId>junit</groupId>
