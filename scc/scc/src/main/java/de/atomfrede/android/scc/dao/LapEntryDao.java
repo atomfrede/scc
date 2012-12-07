@@ -1,21 +1,3 @@
-/*
-*	 SCC - The Sprintercup Companion App provides you with the Meldeergbnis right on your smartphone
-*    
-*    Copyright (C) 2012  Frederik Hahne <atomfrede@gmail.com>
-*
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
 package de.atomfrede.android.scc.dao;
 
 import java.util.List;
@@ -47,14 +29,15 @@ public class LapEntryDao extends AbstractDao<LapEntry, Void> {
     */
     public static class Properties {
         public final static Property LapId = new Property(0, long.class, "lapId", false, "LAP_ID");
-        public final static Property Firstname = new Property(1, String.class, "firstname", false, "FIRSTNAME");
-        public final static Property Lastname = new Property(2, String.class, "lastname", false, "LASTNAME");
-        public final static Property Year = new Property(3, String.class, "year", false, "YEAR");
-        public final static Property Club = new Property(4, String.class, "club", false, "CLUB");
-        public final static Property Time = new Property(5, String.class, "time", false, "TIME");
-        public final static Property CompetitionNumber = new Property(6, Integer.class, "competitionNumber", false, "COMPETITION_NUMBER");
-        public final static Property LapNumber = new Property(7, Integer.class, "lapNumber", false, "LAP_NUMBER");
-        public final static Property Lane = new Property(8, Integer.class, "lane", false, "LANE");
+        public final static Property IsDone = new Property(1, Boolean.class, "isDone", false, "IS_DONE");
+        public final static Property Firstname = new Property(2, String.class, "firstname", false, "FIRSTNAME");
+        public final static Property Lastname = new Property(3, String.class, "lastname", false, "LASTNAME");
+        public final static Property Year = new Property(4, String.class, "year", false, "YEAR");
+        public final static Property Club = new Property(5, String.class, "club", false, "CLUB");
+        public final static Property Time = new Property(6, String.class, "time", false, "TIME");
+        public final static Property CompetitionNumber = new Property(7, Integer.class, "competitionNumber", false, "COMPETITION_NUMBER");
+        public final static Property LapNumber = new Property(8, Integer.class, "lapNumber", false, "LAP_NUMBER");
+        public final static Property Lane = new Property(9, Integer.class, "lane", false, "LANE");
     };
 
     private DaoSession daoSession;
@@ -75,14 +58,15 @@ public class LapEntryDao extends AbstractDao<LapEntry, Void> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'LAP_ENTRY' (" + //
                 "'LAP_ID' INTEGER NOT NULL ," + // 0: lapId
-                "'FIRSTNAME' TEXT," + // 1: firstname
-                "'LASTNAME' TEXT," + // 2: lastname
-                "'YEAR' TEXT," + // 3: year
-                "'CLUB' TEXT," + // 4: club
-                "'TIME' TEXT," + // 5: time
-                "'COMPETITION_NUMBER' INTEGER," + // 6: competitionNumber
-                "'LAP_NUMBER' INTEGER," + // 7: lapNumber
-                "'LANE' INTEGER);"); // 8: lane
+                "'IS_DONE' INTEGER," + // 1: isDone
+                "'FIRSTNAME' TEXT," + // 2: firstname
+                "'LASTNAME' TEXT," + // 3: lastname
+                "'YEAR' TEXT," + // 4: year
+                "'CLUB' TEXT," + // 5: club
+                "'TIME' TEXT," + // 6: time
+                "'COMPETITION_NUMBER' INTEGER," + // 7: competitionNumber
+                "'LAP_NUMBER' INTEGER," + // 8: lapNumber
+                "'LANE' INTEGER);"); // 9: lane
     }
 
     /** Drops the underlying database table. */
@@ -97,44 +81,49 @@ public class LapEntryDao extends AbstractDao<LapEntry, Void> {
         stmt.clearBindings();
         stmt.bindLong(1, entity.getLapId());
  
+        Boolean isDone = entity.getIsDone();
+        if (isDone != null) {
+            stmt.bindLong(2, isDone ? 1l: 0l);
+        }
+ 
         String firstname = entity.getFirstname();
         if (firstname != null) {
-            stmt.bindString(2, firstname);
+            stmt.bindString(3, firstname);
         }
  
         String lastname = entity.getLastname();
         if (lastname != null) {
-            stmt.bindString(3, lastname);
+            stmt.bindString(4, lastname);
         }
  
         String year = entity.getYear();
         if (year != null) {
-            stmt.bindString(4, year);
+            stmt.bindString(5, year);
         }
  
         String club = entity.getClub();
         if (club != null) {
-            stmt.bindString(5, club);
+            stmt.bindString(6, club);
         }
  
         String time = entity.getTime();
         if (time != null) {
-            stmt.bindString(6, time);
+            stmt.bindString(7, time);
         }
  
         Integer competitionNumber = entity.getCompetitionNumber();
         if (competitionNumber != null) {
-            stmt.bindLong(7, competitionNumber);
+            stmt.bindLong(8, competitionNumber);
         }
  
         Integer lapNumber = entity.getLapNumber();
         if (lapNumber != null) {
-            stmt.bindLong(8, lapNumber);
+            stmt.bindLong(9, lapNumber);
         }
  
         Integer lane = entity.getLane();
         if (lane != null) {
-            stmt.bindLong(9, lane);
+            stmt.bindLong(10, lane);
         }
     }
 
@@ -155,14 +144,15 @@ public class LapEntryDao extends AbstractDao<LapEntry, Void> {
     public LapEntry readEntity(Cursor cursor, int offset) {
         LapEntry entity = new LapEntry( //
             cursor.getLong(offset + 0), // lapId
-            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // firstname
-            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // lastname
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // year
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // club
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // time
-            cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6), // competitionNumber
-            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // lapNumber
-            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8) // lane
+            cursor.isNull(offset + 1) ? null : cursor.getShort(offset + 1) != 0, // isDone
+            cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // firstname
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // lastname
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // year
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // club
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // time
+            cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7), // competitionNumber
+            cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8), // lapNumber
+            cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9) // lane
         );
         return entity;
     }
@@ -171,14 +161,15 @@ public class LapEntryDao extends AbstractDao<LapEntry, Void> {
     @Override
     public void readEntity(Cursor cursor, LapEntry entity, int offset) {
         entity.setLapId(cursor.getLong(offset + 0));
-        entity.setFirstname(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
-        entity.setLastname(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setYear(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setClub(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setTime(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setCompetitionNumber(cursor.isNull(offset + 6) ? null : cursor.getInt(offset + 6));
-        entity.setLapNumber(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
-        entity.setLane(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
+        entity.setIsDone(cursor.isNull(offset + 1) ? null : cursor.getShort(offset + 1) != 0);
+        entity.setFirstname(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
+        entity.setLastname(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setYear(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setClub(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setTime(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setCompetitionNumber(cursor.isNull(offset + 7) ? null : cursor.getInt(offset + 7));
+        entity.setLapNumber(cursor.isNull(offset + 8) ? null : cursor.getInt(offset + 8));
+        entity.setLane(cursor.isNull(offset + 9) ? null : cursor.getInt(offset + 9));
      }
     
     /** @inheritdoc */

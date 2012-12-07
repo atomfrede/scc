@@ -1,21 +1,3 @@
-/*
-*	 SCC - The Sprintercup Companion App provides you with the Meldeergbnis right on your smartphone
-*    
-*    Copyright (C) 2012  Frederik Hahne <atomfrede@gmail.com>
-*
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
 package de.atomfrede.android.scc.dao;
 
 import de.atomfrede.android.scc.dao.DaoSession;
@@ -28,9 +10,10 @@ import de.greenrobot.dao.DaoException;
 /**
  * Entity mapped to table LAP_ENTRY.
  */
-public class LapEntry {
+public class LapEntry implements Comparable<LapEntry> {
 
     private long lapId;
+    private Boolean isDone;
     private String firstname;
     private String lastname;
     private String year;
@@ -56,8 +39,9 @@ public class LapEntry {
     public LapEntry() {
     }
 
-    public LapEntry(long lapId, String firstname, String lastname, String year, String club, String time, Integer competitionNumber, Integer lapNumber, Integer lane) {
+    public LapEntry(long lapId, Boolean isDone, String firstname, String lastname, String year, String club, String time, Integer competitionNumber, Integer lapNumber, Integer lane) {
         this.lapId = lapId;
+        this.isDone = isDone;
         this.firstname = firstname;
         this.lastname = lastname;
         this.year = year;
@@ -80,6 +64,14 @@ public class LapEntry {
 
     public void setLapId(long lapId) {
         this.lapId = lapId;
+    }
+
+    public Boolean getIsDone() {
+        return isDone;
+    }
+
+    public void setIsDone(Boolean isDone) {
+        this.isDone = isDone;
     }
 
     public String getFirstname() {
@@ -201,6 +193,16 @@ public class LapEntry {
     	sb.append("\n"+time);
     	return sb.toString();
     }
+    
+    @Override
+	public int compareTo(LapEntry another) {
+		if(this.competitionNumber.equals(another.competitionNumber) &&this.lapNumber.equals(another.lapNumber)){
+			return 0;
+		}
+		return 1;
+	}
     // KEEP METHODS END
+
+	
 
 }

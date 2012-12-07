@@ -1,21 +1,3 @@
-/*
-*	 SCC - The Sprintercup Companion App provides you with the Meldeergbnis right on your smartphone
-*    
-*    Copyright (C) 2012  Frederik Hahne <atomfrede@gmail.com>
-*
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
 package de.atomfrede.android.scc.dao;
 
 import java.util.List;
@@ -33,6 +15,7 @@ public class Lap implements Comparable<Lap> {
 
     private Integer lapNumber;
     private Long id;
+    private Boolean isDone;
     private Integer competitionNumber;
     private long competitionId;
 
@@ -57,9 +40,10 @@ public class Lap implements Comparable<Lap> {
         this.id = id;
     }
 
-    public Lap(Integer lapNumber, Long id, Integer competitionNumber, long competitionId) {
+    public Lap(Integer lapNumber, Long id, Boolean isDone, Integer competitionNumber, long competitionId) {
         this.lapNumber = lapNumber;
         this.id = id;
+        this.isDone = isDone;
         this.competitionNumber = competitionNumber;
         this.competitionId = competitionId;
     }
@@ -84,6 +68,14 @@ public class Lap implements Comparable<Lap> {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Boolean getIsDone() {
+        return isDone;
+    }
+
+    public void setIsDone(Boolean isDone) {
+        this.isDone = isDone;
     }
 
     public Integer getCompetitionNumber() {

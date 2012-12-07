@@ -47,6 +47,7 @@ public class SccDaoGenerator {
 		lap.implementsInterface("Comparable<Lap>");
 		Property lapNumberProp = lap.addIntProperty("lapNumber").getProperty();
 		lap.addIdProperty();
+		lap.addBooleanProperty("isDone");
 		Property competitionNumber = lap.addIntProperty("competitionNumber").getProperty();
 		Property competitionId = lap.addLongProperty("competitionId").notNull()
 				.getProperty();
@@ -55,12 +56,13 @@ public class SccDaoGenerator {
 		competitionToLaps.orderAsc(lapNumberProp);
 		
 		Entity lapEntry = schema.addEntity("LapEntry");
+		lapEntry.implementsInterface("Comparable<LapEntry>");
 		Property lapId = lapEntry.addLongProperty("lapId").notNull()
 				.getProperty();
 		lapEntry.addToOne(lap, lapId);
 		ToMany lapToLapEntry = lap.addToMany(lapEntry, lapId);
 		
-		
+		lapEntry.addBooleanProperty("isDone");
 		lapEntry.addStringProperty("firstname");
 		lapEntry.addStringProperty("lastname");
 		lapEntry.addStringProperty("year");

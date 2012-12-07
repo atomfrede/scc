@@ -1,21 +1,3 @@
-/*
-*	 SCC - The Sprintercup Companion App provides you with the Meldeergbnis right on your smartphone
-*    
-*    Copyright (C) 2012  Frederik Hahne <atomfrede@gmail.com>
-*
-*    This program is free software: you can redistribute it and/or modify
-*    it under the terms of the GNU General Public License as published by
-*    the Free Software Foundation, either version 3 of the License, or
-*    (at your option) any later version.
-*
-*    This program is distributed in the hope that it will be useful,
-*    but WITHOUT ANY WARRANTY; without even the implied warranty of
-*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*    GNU General Public License for more details.
-*
-*    You should have received a copy of the GNU General Public License
-*    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
 package de.atomfrede.android.scc.dao;
 
 import java.util.List;
@@ -48,8 +30,9 @@ public class LapDao extends AbstractDao<Lap, Long> {
     public static class Properties {
         public final static Property LapNumber = new Property(0, Integer.class, "lapNumber", false, "LAP_NUMBER");
         public final static Property Id = new Property(1, Long.class, "id", true, "_id");
-        public final static Property CompetitionNumber = new Property(2, Integer.class, "competitionNumber", false, "COMPETITION_NUMBER");
-        public final static Property CompetitionId = new Property(3, long.class, "competitionId", false, "COMPETITION_ID");
+        public final static Property IsDone = new Property(2, Boolean.class, "isDone", false, "IS_DONE");
+        public final static Property CompetitionNumber = new Property(3, Integer.class, "competitionNumber", false, "COMPETITION_NUMBER");
+        public final static Property CompetitionId = new Property(4, long.class, "competitionId", false, "COMPETITION_ID");
     };
 
     private DaoSession daoSession;
@@ -71,8 +54,9 @@ public class LapDao extends AbstractDao<Lap, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'LAP' (" + //
                 "'LAP_NUMBER' INTEGER," + // 0: lapNumber
                 "'_id' INTEGER PRIMARY KEY ," + // 1: id
-                "'COMPETITION_NUMBER' INTEGER," + // 2: competitionNumber
-                "'COMPETITION_ID' INTEGER NOT NULL );"); // 3: competitionId
+                "'IS_DONE' INTEGER," + // 2: isDone
+                "'COMPETITION_NUMBER' INTEGER," + // 3: competitionNumber
+                "'COMPETITION_ID' INTEGER NOT NULL );"); // 4: competitionId
     }
 
     /** Drops the underlying database table. */
@@ -96,11 +80,16 @@ public class LapDao extends AbstractDao<Lap, Long> {
             stmt.bindLong(2, id);
         }
  
+        Boolean isDone = entity.getIsDone();
+        if (isDone != null) {
+            stmt.bindLong(3, isDone ? 1l: 0l);
+        }
+ 
         Integer competitionNumber = entity.getCompetitionNumber();
         if (competitionNumber != null) {
-            stmt.bindLong(3, competitionNumber);
+            stmt.bindLong(4, competitionNumber);
         }
-        stmt.bindLong(4, entity.getCompetitionId());
+        stmt.bindLong(5, entity.getCompetitionId());
     }
 
     @Override
@@ -121,8 +110,9 @@ public class LapDao extends AbstractDao<Lap, Long> {
         Lap entity = new Lap( //
             cursor.isNull(offset + 0) ? null : cursor.getInt(offset + 0), // lapNumber
             cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1), // id
-            cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // competitionNumber
-            cursor.getLong(offset + 3) // competitionId
+            cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0, // isDone
+            cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3), // competitionNumber
+            cursor.getLong(offset + 4) // competitionId
         );
         return entity;
     }
@@ -132,8 +122,9 @@ public class LapDao extends AbstractDao<Lap, Long> {
     public void readEntity(Cursor cursor, Lap entity, int offset) {
         entity.setLapNumber(cursor.isNull(offset + 0) ? null : cursor.getInt(offset + 0));
         entity.setId(cursor.isNull(offset + 1) ? null : cursor.getLong(offset + 1));
-        entity.setCompetitionNumber(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
-        entity.setCompetitionId(cursor.getLong(offset + 3));
+        entity.setIsDone(cursor.isNull(offset + 2) ? null : cursor.getShort(offset + 2) != 0);
+        entity.setCompetitionNumber(cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3));
+        entity.setCompetitionId(cursor.getLong(offset + 4));
      }
     
     /** @inheritdoc */
