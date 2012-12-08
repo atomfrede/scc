@@ -234,11 +234,13 @@ public class CompetitionFragment extends Fragment {
 					if (currentCompetition.getCompetitionNumber() == null) {
 						currentCompetition.setCompetitionNumber(competitionNumber);
 						currentCompetition.setName(competitionName);
+						currentCompetition.setLastSelectedLapPosition(0);
 						oldCompetition = currentCompetition;
 						competitions.add(currentCompetition);
 						competitionNumber_lap.put(currentCompetition.getCompetitionNumber() + "", laps);
 					} else {
 						currentCompetition = new Competition();
+						currentCompetition.setLastSelectedLapPosition(0);
 						currentCompetition.setCompetitionNumber(competitionNumber);
 						currentCompetition.setName(competitionName);
 					}

@@ -16,6 +16,7 @@ public class Competition {
     private Long id;
     private String name;
     private Integer competitionNumber;
+    private Integer lastSelectedLapPosition;
 
     /** Used to resolve relations */
     private transient DaoSession daoSession;
@@ -35,10 +36,11 @@ public class Competition {
         this.id = id;
     }
 
-    public Competition(Long id, String name, Integer competitionNumber) {
+    public Competition(Long id, String name, Integer competitionNumber, Integer lastSelectedLapPosition) {
         this.id = id;
         this.name = name;
         this.competitionNumber = competitionNumber;
+        this.lastSelectedLapPosition = lastSelectedLapPosition;
     }
 
     /** called by internal mechanisms, do not call yourself. */
@@ -69,6 +71,14 @@ public class Competition {
 
     public void setCompetitionNumber(Integer competitionNumber) {
         this.competitionNumber = competitionNumber;
+    }
+
+    public Integer getLastSelectedLapPosition() {
+        return lastSelectedLapPosition;
+    }
+
+    public void setLastSelectedLapPosition(Integer lastSelectedLapPosition) {
+        this.lastSelectedLapPosition = lastSelectedLapPosition;
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */

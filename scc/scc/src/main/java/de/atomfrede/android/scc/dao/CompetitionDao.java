@@ -26,6 +26,7 @@ public class CompetitionDao extends AbstractDao<Competition, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Name = new Property(1, String.class, "name", false, "NAME");
         public final static Property CompetitionNumber = new Property(2, Integer.class, "competitionNumber", false, "COMPETITION_NUMBER");
+        public final static Property LastSelectedLapPosition = new Property(3, Integer.class, "lastSelectedLapPosition", false, "LAST_SELECTED_LAP_POSITION");
     };
 
     private DaoSession daoSession;
@@ -46,7 +47,8 @@ public class CompetitionDao extends AbstractDao<Competition, Long> {
         db.execSQL("CREATE TABLE " + constraint + "'COMPETITION' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
                 "'NAME' TEXT," + // 1: name
-                "'COMPETITION_NUMBER' INTEGER);"); // 2: competitionNumber
+                "'COMPETITION_NUMBER' INTEGER," + // 2: competitionNumber
+                "'LAST_SELECTED_LAP_POSITION' INTEGER);"); // 3: lastSelectedLapPosition
     }
 
     /** Drops the underlying database table. */
@@ -74,6 +76,11 @@ public class CompetitionDao extends AbstractDao<Competition, Long> {
         if (competitionNumber != null) {
             stmt.bindLong(3, competitionNumber);
         }
+ 
+        Integer lastSelectedLapPosition = entity.getLastSelectedLapPosition();
+        if (lastSelectedLapPosition != null) {
+            stmt.bindLong(4, lastSelectedLapPosition);
+        }
     }
 
     @Override
@@ -94,7 +101,8 @@ public class CompetitionDao extends AbstractDao<Competition, Long> {
         Competition entity = new Competition( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // name
-            cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2) // competitionNumber
+            cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2), // competitionNumber
+            cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3) // lastSelectedLapPosition
         );
         return entity;
     }
@@ -105,6 +113,7 @@ public class CompetitionDao extends AbstractDao<Competition, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setName(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setCompetitionNumber(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
+        entity.setLastSelectedLapPosition(cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3));
      }
     
     /** @inheritdoc */

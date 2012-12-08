@@ -36,6 +36,7 @@ import com.viewpagerindicator.TitlePageIndicator;
 
 import de.atomfrede.android.scc.R;
 import de.atomfrede.android.scc.application.SccApplication;
+import de.atomfrede.android.scc.dao.Competition;
 import de.atomfrede.android.scc.dao.CompetitionDao;
 import de.atomfrede.android.scc.dao.Lap;
 import de.atomfrede.android.scc.dao.LapDao;
@@ -48,6 +49,8 @@ public class LapFragment extends Fragment {
 
 	CompetitionDao mCompetitionDao;
 	LapDao mLapDao;
+	
+	Competition mCompetition;
 
 	List<Lap> mLaps;
 
@@ -68,8 +71,9 @@ public class LapFragment extends Fragment {
 
 	public void initPager() {
 		mCompetitionDao = mApplication.competitonDao;
+		mCompetition = mCompetitionDao.load(competitionId);
 		mLapDao = mApplication.lapDao;
-		mLaps = mCompetitionDao.load(competitionId).getLapList();
+		mLaps = mCompetition.getLapList();
 
 		mPagerAdapter = new LapPagerAdapter(getFragmentManager(), this.competitionId, this.getActivity());
 		mPager.setAdapter(mPagerAdapter);
@@ -81,6 +85,9 @@ public class LapFragment extends Fragment {
 			public void onPageSelected(int position) {
 				lastSelectedPagerPositon = position;
 				selectedLapId = mLaps.get(position).getId();
+				
+				mCompetition.setLastSelectedLapPosition(lastSelectedPagerPositon);
+				mCompetitionDao.update(mCompetition);
 			}
 
 			@Override
@@ -97,7 +104,7 @@ public class LapFragment extends Fragment {
 		});
 		Log.d("Resume", "LastselectedPagerPosition " + lastSelectedPagerPositon);
 		// mPager.setCurrentItem(lastSelectedPagerPositon);
-		// mIndicator.setCurrentItem(lastSelectedPagerPositon);
+		 mIndicator.setCurrentItem(mCompetition.getLastSelectedLapPosition());
 	}
 
 	public void markAsDone() {

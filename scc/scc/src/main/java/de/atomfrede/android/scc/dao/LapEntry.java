@@ -203,6 +203,4 @@ public class LapEntry implements Comparable<LapEntry> {
 	}
     // KEEP METHODS END
 
-	
-
 }

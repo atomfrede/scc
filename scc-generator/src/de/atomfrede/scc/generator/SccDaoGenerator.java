@@ -41,6 +41,7 @@ public class SccDaoGenerator {
 		competition.addIdProperty();
 		competition.addStringProperty("name");
 		competition.addIntProperty("competitionNumber");
+		competition.addIntProperty("lastSelectedLapPosition");
 		
 
 		Entity lap = schema.addEntity("Lap");
