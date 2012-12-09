@@ -76,7 +76,7 @@ public class LapEntryListAdapter extends ArrayAdapter<LapEntry> {
 
 		LapEntry cEntry = objects.get(position);
 		boolean isDone = false;
-		if (mLapDao.load(lapId).getIsDone()) {
+		if (cEntry.getLap().getIsDone()) {
 			isDone = true;
 		}
 		holder.laneText.setText(context.getResources().getString(R.string.lane).replace("$i$", cEntry.getLane() + ""));
