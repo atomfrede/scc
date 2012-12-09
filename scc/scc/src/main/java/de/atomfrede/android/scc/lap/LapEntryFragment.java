@@ -66,7 +66,7 @@ public class LapEntryFragment extends Fragment {
 
 	@AfterViews
 	public void fillList() {
-		mEntryAdapter = new LapEntryListAdapter(this.getActivity(), lapEntries);
+		mEntryAdapter = new LapEntryListAdapter(this.getActivity(), lapId, lapEntries);
 		entryList.setAdapter(mEntryAdapter);
 	}
 
