@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
     <groupId>de.atomfrede.android</groupId>
     <artifactId>scc-parent</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
   </parent>
 
   <groupId>de.atomfrede.android</groupId>
   <artifactId>scc-it</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.2</version>
   <packaging>apk</packaging>
   <name>scc-it - Integration tests</name>
 
@@ -20,7 +19,7 @@
         When not running a release, we are deploying the plain artifact (so no classifier)
         This is overridden during the release.
       -->
-      <zipaligned-classifier></zipaligned-classifier>
+      <zipaligned-classifier />
   </properties>
 
   <dependencies>
@@ -36,7 +35,7 @@
       <groupId>de.atomfrede.android</groupId>
       <artifactId>scc</artifactId>
       <type>apk</type>
-      <version>0.0.2-SNAPSHOT</version>
+      <version>0.0.2</version>
 <scope>provided</scope>
       <classifier>${zipaligned-classifier}</classifier> <!--  classifier set according to the ran profile -->
     </dependency>
@@ -45,7 +44,7 @@
       <artifactId>scc</artifactId>
       <type>jar</type>
 <scope>provided</scope>
-      <version>0.0.2-SNAPSHOT</version>
+      <version>0.0.2</version>
     </dependency>
     <dependency>
        <groupId>junit</groupId>
