@@ -5,12 +5,12 @@
   <parent>
     <groupId>de.atomfrede.android</groupId>
     <artifactId>scc-parent</artifactId>
-    <version>0.0.3</version>
+    <version>0.0.4-SNAPSHOT</version>
   </parent>
 
   <groupId>de.atomfrede.android</groupId>
   <artifactId>scc-it</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4-SNAPSHOT</version>
   <packaging>apk</packaging>
   <name>scc-it - Integration tests</name>
 
@@ -35,7 +35,7 @@
       <groupId>de.atomfrede.android</groupId>
       <artifactId>scc</artifactId>
       <type>apk</type>
-      <version>0.0.3</version>
+      <version>0.0.4-SNAPSHOT</version>
 <scope>provided</scope>
       <classifier>${zipaligned-classifier}</classifier> <!--  classifier set according to the ran profile -->
     </dependency>
@@ -44,7 +44,7 @@
       <artifactId>scc</artifactId>
       <type>jar</type>
 <scope>provided</scope>
-      <version>0.0.3</version>
+      <version>0.0.4-SNAPSHOT</version>
     </dependency>
     <dependency>
        <groupId>junit</groupId>
