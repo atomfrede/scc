@@ -118,15 +118,6 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>build-helper-maven-plugin</artifactId>
-            <configuration>
-              <artifacts>
-                <artifact>
-                  <file>${project.build.directory}/proguard_map.txt</file>
-                  <type>map</type>
-                  <classifier>release</classifier>
-                </artifact>
-              </artifacts>
-            </configuration>
             <executions>
               <execution>
                 <id>attach-signed-aligned</id>
