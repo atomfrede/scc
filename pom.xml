@@ -122,9 +122,16 @@
     </dependencyManagement>
 
          <distributionManagement>
+            <repository>
+                <uniqueVersion>false</uniqueVersion>
+                <id>local.folder.repo</id>
+                <name>my Local File Repository</name>
+                <url>file://${user.home}/scc-release/artifacts/</url>
+                <layout>default</layout>
+                </repository>
             <site>
-              <id>local.folder</id>
-              <url>file://${user.home}/scc-release/</url>
+              <id>local.folder.site</id>
+              <url>file://${user.home}/scc-release/html_site</url>
             </site>
         </distributionManagement>
 
