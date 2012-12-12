@@ -60,7 +60,7 @@
 	<android.platform>16</android.platform>
 	<android-maven.version>3.4.0</android-maven.version>
 	<junit.version>4.10</junit.version>
-	<project.codeVersion>2</project.codeVersion>
+	<project.codeVersion>4</project.codeVersion>
     </properties>
 
     <dependencyManagement>

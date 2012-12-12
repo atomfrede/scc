@@ -115,19 +115,6 @@
               </sign>
             </configuration>
           </plugin>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>build-helper-maven-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>attach-signed-aligned</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>attach-artifact</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
         </plugins>
       </build>
     </profile>
