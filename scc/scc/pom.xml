@@ -5,12 +5,12 @@
   <parent>
     <groupId>de.atomfrede.android</groupId>
     <artifactId>scc-parent</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
   </parent>
 
   <groupId>de.atomfrede.android</groupId>
   <artifactId>scc</artifactId>
-  <version>0.0.5-SNAPSHOT</version>
+  <version>0.0.4-SNAPSHOT</version>
   <packaging>apk</packaging>
   <name>scc - Application</name>
 
