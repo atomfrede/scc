@@ -26,7 +26,13 @@
         <module>scc</module>
     </modules>
 
-<scm>
+        <distributionManagement>
+            <site>
+              <id>local.folder</id>
+              <url>file://${user.home}/scc-release/</url>
+            </site>
+        </distributionManagement>
+    <scm>
         <url>http://github.com/atomfrede/scc/</url>
         <connection>scm:git:git://github.com/atomfrede/scc.git</connection>
         <developerConnection>scm:git:git@github.com:atomfrede/scc.git</developerConnection>
@@ -50,6 +56,7 @@
     </issueManagement>
 
     <properties>
+        <github.maven.repository>file:///~/scc-release/</github.maven.repository>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	<android-support.version>r7</android-support.version>
@@ -118,6 +125,13 @@
 </dependency>
         </dependencies>
     </dependencyManagement>
+
+  <distributionManagement>
+   <repository>
+   <id>maven-repository</id>
+   <url>${github.maven.repository}</url>
+   </repository>
+  </distributionManagement>
 
     <build>
         <pluginManagement>
