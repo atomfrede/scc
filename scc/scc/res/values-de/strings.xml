@@ -27,7 +27,7 @@
 	<string name="about_feedback">Feeback</string>
 	<string name="loading_database_competitions">Speichere Wettkämpfe</string>
 	<string name="loading_database_laps">Speichere Läufe</string>
-	<string name="loading_database_participants">Speichere Teilnehmenr</string>
+	<string name="loading_database_participants">Speichere Teilnehmer</string>
 	<string name="menu_mark_as_done">Gelaufen</string>
 	<string name="about_app_name">SCC - The Sprintercup Companion App</string>
 
