@@ -74,6 +74,9 @@ public class AboutDialogFragment extends DialogFragment {
 
 		TextView appNameText = (TextView) v.findViewById(R.id.app_name_text);
 		appNameText.setText(appName);
+		
+		TextView aboutAppNameText = (TextView) v.findViewById(R.id.scc_application_text);
+		aboutAppNameText.setText(resources.getString(R.string.about_app_name));
 
 		TextView homepageText = (TextView) v.findViewById(R.id.homepage_link_text);
 		homepageText.setText(Html.fromHtml(homepage));
