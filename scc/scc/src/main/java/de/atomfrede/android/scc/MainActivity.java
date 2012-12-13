@@ -22,19 +22,49 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.FrameLayout;
 
+import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.EActivity;
+import com.googlecode.androidannotations.annotations.FragmentById;
 import com.googlecode.androidannotations.annotations.OptionsItem;
 import com.googlecode.androidannotations.annotations.OptionsMenu;
+import com.googlecode.androidannotations.annotations.UiThread;
+import com.googlecode.androidannotations.annotations.ViewById;
 
 import de.atomfrede.android.scc.about.AboutDialogFragment;
+import de.atomfrede.android.scc.competition.CompetitionFragment;
+import de.atomfrede.android.scc.lap.LapFragment;
 
 @OptionsMenu(R.menu.activity_main)
 @EActivity(R.layout.activity_main)
 public class MainActivity extends FragmentActivity {
 
 	private static String TAG = "scc";
+	
+	@FragmentById(R.id.competitionFragment)
+	CompetitionFragment mCompetitionFragment;
+	
+	@ViewById(R.id.details)
+	FrameLayout mDetailsFrame;
 
+	boolean isDualPane = false;
+	
+	@AfterViews
+	public void afterViews(){
+		if(mDetailsFrame != null){
+			isDualPane = true;
+		}
+		
+		mCompetitionFragment.isDualPane = isDualPane;
+	}
+	
+	@UiThread
+	public void onDataLoaded(boolean success) {
+		mDetailsFrame.setVisibility(View.VISIBLE);
+	}
+	
 	@OptionsItem(R.id.menu_about)
 	public void showAboutMenu() {
 

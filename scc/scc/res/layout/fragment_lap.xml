@@ -5,6 +5,8 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+
+
     <com.viewpagerindicator.TitlePageIndicator
         android:id="@+id/titles"
         android:layout_width="fill_parent"

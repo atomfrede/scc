@@ -21,6 +21,7 @@ package de.atomfrede.android.scc.lap;
 import java.util.List;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -29,6 +30,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 
+import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.App;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.FragmentArg;
@@ -46,13 +48,24 @@ import de.atomfrede.android.scc.dao.LapEntryDao;
 @EFragment(R.layout.fragment_lap)
 public class LapFragment extends Fragment {
 
+	public static LapFragment_ newInstance(long competitionId) {
+		LapFragment_ f = new LapFragment_();
+
+		// Supply index input as an argument.
+		Bundle args = new Bundle();
+		args.putLong("competitionId", competitionId);
+		f.setArguments(args);
+
+		return f;
+	}
+
 	@App
 	SccApplication mApplication;
 
 	CompetitionDao mCompetitionDao;
 	LapDao mLapDao;
 	LapEntryDao mLapEntryDao;
-	
+
 	Competition mCompetition;
 
 	List<Lap> mLaps;
@@ -72,7 +85,13 @@ public class LapFragment extends Fragment {
 
 	public int lastSelectedPagerPositon;
 
+	public long getShownCompetionId() {
+		return getArguments().getLong("competitionId", 0);
+	}
+
+	@AfterViews
 	public void initPager() {
+		Log.d("LapFragment", "InitPager");
 		mCompetitionDao = mApplication.competitonDao;
 		mCompetition = mCompetitionDao.load(competitionId);
 		mLapDao = mApplication.lapDao;
@@ -89,7 +108,7 @@ public class LapFragment extends Fragment {
 			public void onPageSelected(int position) {
 				lastSelectedPagerPositon = position;
 				selectedLapId = mLaps.get(position).getId();
-				
+
 				mCompetition.setLastSelectedLapPosition(lastSelectedPagerPositon);
 				mCompetitionDao.update(mCompetition);
 			}
@@ -106,7 +125,7 @@ public class LapFragment extends Fragment {
 
 			}
 		});
-		 mIndicator.setCurrentItem(mCompetition.getLastSelectedLapPosition());
+		mIndicator.setCurrentItem(mCompetition.getLastSelectedLapPosition());
 	}
 
 	public void markAsDone() {
@@ -115,16 +134,16 @@ public class LapFragment extends Fragment {
 			// 0 is the initial value...
 			selectedLapId = mLaps.get(lastSelectedPagerPositon).getId();
 		}
-		
+
 		mLaps.get(lastSelectedPagerPositon).setIsDone(true);
 		Lap lap = mLapDao.load(selectedLapId);
 		lap.setIsDone(true);
 		mLapDao.update(lap);
-		
+
 		mPagerAdapter.position_fragment.get(lastSelectedPagerPositon).mEntryAdapter.notifyDataSetChanged();
-		
-		if(mPagerAdapter.getCount() > lastSelectedPagerPositon){
-			mIndicator.setCurrentItem(lastSelectedPagerPositon+1);
+
+		if (mPagerAdapter.getCount() > lastSelectedPagerPositon) {
+			mIndicator.setCurrentItem(lastSelectedPagerPositon + 1);
 		}
 	}
 

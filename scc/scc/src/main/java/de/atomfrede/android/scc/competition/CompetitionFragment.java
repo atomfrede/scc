@@ -25,9 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.impl.client.DefaultTargetAuthenticationHandler;
-
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -43,6 +42,7 @@ import com.googlecode.androidannotations.annotations.ItemClick;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 
+import de.atomfrede.android.scc.MainActivity;
 import de.atomfrede.android.scc.R;
 import de.atomfrede.android.scc.application.SccApplication;
 import de.atomfrede.android.scc.dao.Competition;
@@ -52,6 +52,7 @@ import de.atomfrede.android.scc.dao.LapDao;
 import de.atomfrede.android.scc.dao.LapEntry;
 import de.atomfrede.android.scc.dao.LapEntryDao;
 import de.atomfrede.android.scc.lap.LapActivity_;
+import de.atomfrede.android.scc.lap.LapFragment_;
 
 @EFragment(R.layout.fragment_competition)
 public class CompetitionFragment extends Fragment {
@@ -61,7 +62,7 @@ public class CompetitionFragment extends Fragment {
 	public static final int DATABASE_COMPETIONS = 0;
 	public static final int DATABASE_LAPS = 1;
 	public static final int DATABASE_LAP_ENTRIES = 2;
-	
+
 	@App
 	SccApplication mApplication;
 
@@ -83,19 +84,58 @@ public class CompetitionFragment extends Fragment {
 
 	ListItemAdapter mAdapater;
 
+	public boolean isDualPane;
+
+	int mCurCheckPosition = 0;
+
 	@AfterViews
 	public void init() {
 		readData();
+		mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
 	}
 
 	@ItemClick(R.id.competion_list)
 	public void myListItemClicked(int position) {
+		if (!isDualPane) {
+			Competition clickedCompetion = mAdapater.getItem(position);
+			LapActivity_.intent(this.getActivity()).competionNumber(clickedCompetion.getCompetitionNumber() + "").competitionName(clickedCompetion.getName()).selectedCompetionId(clickedCompetion.getId()).start();
+		} else {
+			mCurCheckPosition = position;
+			showDetails(mCurCheckPosition);
+		}
+	}
+
+	public void showDetails(int position) {
 		Competition clickedCompetion = mAdapater.getItem(position);
-		LapActivity_.intent(this.getActivity()).competionNumber(clickedCompetion.getCompetitionNumber() + "").competitionName(clickedCompetion.getName()).selectedCompetionId(clickedCompetion.getId()).start();
+
+		getActivity().getActionBar().setTitle(getResources().getString(R.string.competition_heading_text).replace("$i$", clickedCompetion.getCompetitionNumber() + ""));
+		getActivity().getActionBar().setSubtitle(clickedCompetion.getName());
+
+		mListView.setItemChecked(position, true);
+
+		LapFragment_ lapFragment = (LapFragment_) getFragmentManager().findFragmentById(R.id.details);
+
+		if (lapFragment == null || lapFragment.getShownCompetionId() != clickedCompetion.getId()) {
+			// Make new fragment to show this selection.
+			lapFragment = (LapFragment_) LapFragment_.newInstance(clickedCompetion.getId());
+
+			// Execute a transaction, replacing any existing fragment
+			// with this one inside the frame.
+			FragmentTransaction ft = getFragmentManager().beginTransaction();
+			ft.replace(R.id.details, lapFragment);
+			ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+			ft.commit();
+
+			// lapFragment.initPager();
+		}
+
 	}
 
 	@UiThread
 	public void onDataLoaded(boolean success) {
+		((MainActivity) getActivity()).onDataLoaded(success);
+
 		mAdapater = new ListItemAdapter(this.getActivity(), competitionDao.loadAll());
 		mListView.setAdapter(mAdapater);
 
@@ -103,6 +143,9 @@ public class CompetitionFragment extends Fragment {
 		loadingProgressBar.setVisibility(View.GONE);
 		loadingLapTextView.setVisibility(View.GONE);
 
+		showDetails(mCurCheckPosition);
+
+		((MainActivity) getActivity()).onDataLoaded(success);
 		mListView.setVisibility(View.VISIBLE);
 
 	}
@@ -121,9 +164,9 @@ public class CompetitionFragment extends Fragment {
 		loadingLapTextView.setVisibility(View.GONE);
 		loadingTextView.setText(getResources().getString(R.string.loading_database));
 	}
-	
+
 	@UiThread
-	public void updateWriteDatabaseStep(int databaseStep){
+	public void updateWriteDatabaseStep(int databaseStep) {
 		switch (databaseStep) {
 		case DATABASE_COMPETIONS:
 			loadingLapTextView.setVisibility(View.VISIBLE);
@@ -191,7 +234,6 @@ public class CompetitionFragment extends Fragment {
 
 			Lap currentLap = new Lap();
 			Lap oldLap = new Lap();
-
 
 			// updateInformation(currentCompetitionNumber, 1);
 
@@ -309,13 +351,12 @@ public class CompetitionFragment extends Fragment {
 
 	private void writeToDatabase(List<Competition> competitions, Map<String, List<Lap>> competitionNumber_lap, Map<String, List<LapEntry>> lap_lapentries) {
 		updateWriteDatabaseStep(DATABASE_COMPETIONS);
-		
+
 		competitionDao.insertInTx(competitions);
 		List<Competition> dbCompetitions = competitionDao.loadAll();
 		List<Lap> allLaps = new ArrayList<Lap>();
 		List<LapEntry> allEntries = new ArrayList<LapEntry>();
 		List<LapEntry> allDbEntries = new ArrayList<LapEntry>();
-
 
 		for (Competition dbCompetition : dbCompetitions) {
 			long id = dbCompetition.getId();
@@ -331,7 +372,6 @@ public class CompetitionFragment extends Fragment {
 					String key = cLap.getCompetitionNumber() + "_" + cLap.getLapNumber();
 					List<LapEntry> entriesForLap = lap_lapentries.get(key);
 
-					
 					if (entriesForLap != null) {
 						allEntries.addAll(entriesForLap);
 					} else {
@@ -343,7 +383,7 @@ public class CompetitionFragment extends Fragment {
 				Log.d(TAG, "Laps *IS* Null");
 			}
 		}
-		
+
 		updateWriteDatabaseStep(DATABASE_LAPS);
 		lapDao.insertInTx(allLaps);
 
