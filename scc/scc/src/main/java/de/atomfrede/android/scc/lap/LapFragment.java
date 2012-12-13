@@ -87,47 +87,50 @@ public class LapFragment extends Fragment {
 	public int lastSelectedPagerPositon;
 
 	public long getShownCompetionId() {
-		return getArguments().getLong("competitionId", 0);
+		return getArguments().getLong("competitionId", -1);
 	}
 
 	@AfterViews
 	public void initPager() {
-		mCompetitionDao = mApplication.competitonDao;
-		mCompetition = mCompetitionDao.load(competitionId);
-		mLapDao = mApplication.lapDao;
-		mLapEntryDao = mApplication.lapEntryDao;
-		mLaps = mCompetition.getLapList();
+		Log.d("LapFragment", "Competition ID "+competitionId);
+//		Log.d("LapFragment", "GetShownCompetition ID "+getShownCompetionId());
+		if (competitionId != 0) {
+			mCompetitionDao = mApplication.competitonDao;
+			mCompetition = mCompetitionDao.load(competitionId);
+			mLapDao = mApplication.lapDao;
+			mLapEntryDao = mApplication.lapEntryDao;
+			mLaps = mCompetition.getLapList();
 
-		mPagerAdapter = new LapPagerAdapter(getFragmentManager(), this.competitionId, this.getActivity());
-		mPager.setAdapter(mPagerAdapter);
-		mIndicator.setViewPager(mPager);
+			mPagerAdapter = new LapPagerAdapter(getFragmentManager(), this.competitionId, this.getActivity());
+			mPager.setAdapter(mPagerAdapter);
+			mIndicator.setViewPager(mPager);
 
-		mIndicator.setOnPageChangeListener(new OnPageChangeListener() {
+			mIndicator.setOnPageChangeListener(new OnPageChangeListener() {
 
-			@Override
-			public void onPageSelected(int position) {
-				lastSelectedPagerPositon = position;
-				selectedLapId = mLaps.get(position).getId();
+				@Override
+				public void onPageSelected(int position) {
+					lastSelectedPagerPositon = position;
+					selectedLapId = mLaps.get(position).getId();
 
-				mCompetition.setLastSelectedLapPosition(lastSelectedPagerPositon);
-				mCompetitionDao.update(mCompetition);
-			}
+					mCompetition.setLastSelectedLapPosition(lastSelectedPagerPositon);
+					mCompetitionDao.update(mCompetition);
+				}
 
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-				// TODO Auto-generated method stub
+				@Override
+				public void onPageScrolled(int arg0, float arg1, int arg2) {
+					// TODO Auto-generated method stub
 
-			}
+				}
 
-			@Override
-			public void onPageScrollStateChanged(int arg0) {
-				// TODO Auto-generated method stub
+				@Override
+				public void onPageScrollStateChanged(int arg0) {
+					// TODO Auto-generated method stub
 
-			}
-		});
-		
-		
-		mIndicator.setCurrentItem(mCompetition.getLastSelectedLapPosition());
+				}
+			});
+
+			mIndicator.setCurrentItem(mCompetition.getLastSelectedLapPosition());
+		}
 	}
 
 	public void markAsDone() {
@@ -173,8 +176,8 @@ public class LapFragment extends Fragment {
 		public int getCount() {
 			return mLaps.size();
 		}
-		
-		public long getItemId (int position){
+
+		public long getItemId(int position) {
 			return mLaps.get(position).getId();
 		}
 
