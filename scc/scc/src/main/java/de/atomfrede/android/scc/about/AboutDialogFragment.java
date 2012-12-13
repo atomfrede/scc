@@ -18,6 +18,7 @@
  */
 package de.atomfrede.android.scc.about;
 
+import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 import de.atomfrede.android.scc.R;
 
@@ -67,7 +70,7 @@ public class AboutDialogFragment extends DialogFragment {
 		String greendao = resources.getString(R.string.link_viewpager_green_dao);
 
 		TextView versionText = (TextView) v.findViewById(R.id.version_text);
-		versionText.setText(app_ver);
+		versionText.setText("Version "+app_ver);
 
 		TextView appNameText = (TextView) v.findViewById(R.id.app_name_text);
 		appNameText.setText(appName);
@@ -87,7 +90,25 @@ public class AboutDialogFragment extends DialogFragment {
 		TextView greendaoText = (TextView) v.findViewById(R.id.greendao_text);
 		greendaoText.setText(Html.fromHtml(greendao));
 		greendaoText.setMovementMethod(LinkMovementMethod.getInstance());
+		
+		Button feedbackButton = (Button) v.findViewById(R.id.feedback_button);
+		feedbackButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				sendFeedbackMail();
+				
+			}
+		});
 
 		return v;
+	}
+	
+	protected void sendFeedbackMail() {
+		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+		emailIntent.setType("plain/text");
+		emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { "atomfrede@gmail.com" });
+
+		startActivity(Intent.createChooser(emailIntent, getResources().getString(R.string.about_feedback)));
 	}
 }
