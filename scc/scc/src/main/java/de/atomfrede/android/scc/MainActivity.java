@@ -42,29 +42,31 @@ import de.atomfrede.android.scc.lap.LapFragment;
 public class MainActivity extends FragmentActivity {
 
 	private static String TAG = "scc";
-	
+
 	@FragmentById(R.id.competitionFragment)
 	CompetitionFragment mCompetitionFragment;
-	
+
 	@ViewById(R.id.details)
 	FrameLayout mDetailsFrame;
 
 	boolean isDualPane = false;
-	
+
 	@AfterViews
-	public void afterViews(){
-		if(mDetailsFrame != null){
+	public void afterViews() {
+		if (mDetailsFrame != null) {
 			isDualPane = true;
 		}
-		
+
 		mCompetitionFragment.isDualPane = isDualPane;
 	}
-	
+
 	@UiThread
 	public void onDataLoaded(boolean success) {
-		mDetailsFrame.setVisibility(View.VISIBLE);
+		if (isDualPane) {
+			mDetailsFrame.setVisibility(View.VISIBLE);
+		}
 	}
-	
+
 	@OptionsItem(R.id.menu_about)
 	public void showAboutMenu() {
 
@@ -79,6 +81,13 @@ public class MainActivity extends FragmentActivity {
 		DialogFragment newFragment = AboutDialogFragment.newInstance();
 
 		newFragment.show(ft, "about_dialog");
+	}
+	
+	@OptionsItem(R.id.menu_mark_as_done)
+	public void markAsDone() {
+		if(isDualPane){
+			mCompetitionFragment.markAsDone();
+		}
 	}
 
 }

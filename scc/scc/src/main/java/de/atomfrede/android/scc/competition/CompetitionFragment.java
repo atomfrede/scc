@@ -38,6 +38,7 @@ import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.App;
 import com.googlecode.androidannotations.annotations.Background;
 import com.googlecode.androidannotations.annotations.EFragment;
+import com.googlecode.androidannotations.annotations.InstanceState;
 import com.googlecode.androidannotations.annotations.ItemClick;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
@@ -86,13 +87,12 @@ public class CompetitionFragment extends Fragment {
 
 	public boolean isDualPane;
 
-	int mCurCheckPosition = 0;
+	@InstanceState
+	public int mCurCheckPosition = 0;
 
 	@AfterViews
 	public void init() {
 		readData();
-		mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
 	}
 
 	@ItemClick(R.id.competion_list)
@@ -106,7 +106,11 @@ public class CompetitionFragment extends Fragment {
 		}
 	}
 
-	public void showDetails(int position) {
+	public void markAsDone(){
+		((LapFragment_) getFragmentManager().findFragmentById(R.id.details)).markAsDone();
+	}
+	
+	private void showDetails(int position) {
 		Competition clickedCompetion = mAdapater.getItem(position);
 
 		getActivity().getActionBar().setTitle(getResources().getString(R.string.competition_heading_text).replace("$i$", clickedCompetion.getCompetitionNumber() + ""));
@@ -134,18 +138,19 @@ public class CompetitionFragment extends Fragment {
 
 	@UiThread
 	public void onDataLoaded(boolean success) {
-		((MainActivity) getActivity()).onDataLoaded(success);
-
 		mAdapater = new ListItemAdapter(this.getActivity(), competitionDao.loadAll());
 		mListView.setAdapter(mAdapater);
 
+		if(isDualPane){
+			mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+			showDetails(mCurCheckPosition);
+		}
+		((MainActivity) getActivity()).onDataLoaded(success);
+		
 		loadingTextView.setVisibility(View.GONE);
 		loadingProgressBar.setVisibility(View.GONE);
 		loadingLapTextView.setVisibility(View.GONE);
-
-		showDetails(mCurCheckPosition);
-
-		((MainActivity) getActivity()).onDataLoaded(success);
+		
 		mListView.setVisibility(View.VISIBLE);
 
 	}

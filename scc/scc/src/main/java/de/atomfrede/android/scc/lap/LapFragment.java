@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.util.LruCache;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -91,7 +92,6 @@ public class LapFragment extends Fragment {
 
 	@AfterViews
 	public void initPager() {
-		Log.d("LapFragment", "InitPager");
 		mCompetitionDao = mApplication.competitonDao;
 		mCompetition = mCompetitionDao.load(competitionId);
 		mLapDao = mApplication.lapDao;
@@ -125,11 +125,12 @@ public class LapFragment extends Fragment {
 
 			}
 		});
+		
+		
 		mIndicator.setCurrentItem(mCompetition.getLastSelectedLapPosition());
 	}
 
 	public void markAsDone() {
-		Log.d("Done", "Pager Position " + lastSelectedPagerPositon);
 		if (selectedLapId == 0) {
 			// 0 is the initial value...
 			selectedLapId = mLaps.get(lastSelectedPagerPositon).getId();
@@ -147,7 +148,7 @@ public class LapFragment extends Fragment {
 		}
 	}
 
-	public final class LapPagerAdapter extends FragmentPagerAdapter {
+	public final class LapPagerAdapter extends FragmentStatePagerAdapter {
 
 		CompetitionDao competitionDao;
 		Activity context;
@@ -162,6 +163,7 @@ public class LapFragment extends Fragment {
 
 		@Override
 		public Fragment getItem(int position) {
+			Log.d("LapFragment", "GetItem");
 			LapEntryFragment currentFragment = LapEntryFragment.newInstance(mLaps.get(position).getId());
 			position_fragment.put(position, currentFragment);
 			return currentFragment;
@@ -170,6 +172,10 @@ public class LapFragment extends Fragment {
 		@Override
 		public int getCount() {
 			return mLaps.size();
+		}
+		
+		public long getItemId (int position){
+			return mLaps.get(position).getId();
 		}
 
 		public CharSequence getPageTitle(int position) {
