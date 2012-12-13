@@ -5,12 +5,12 @@
     <parent>
     <groupId>de.atomfrede.android</groupId>
     <artifactId>scc-project</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.5</version>
     </parent>
 
     <groupId>de.atomfrede.android</groupId>
     <artifactId>scc-parent</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.5</version>
     <packaging>pom</packaging>
     <name>scc - Parent</name>
     <url>http://atomfrede.github.com/scc/</url>
