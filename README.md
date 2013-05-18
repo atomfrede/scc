@@ -3,6 +3,8 @@ SCC - Sprintercup Companion App
 
 For details see <http://atomfrede.github.com/scc/>
 
+[![endorse](http://api.coderwall.com/atomfrede/endorsecount.png)](http://coderwall.com/atomfrede)
+
 License
 ========
 
