@@ -202,7 +202,7 @@ public class CompetitionFragment extends Fragment {
 			}
 
 			// TODO close all streams properly
-			InputStream in = getResources().openRawResource(R.raw.me_2012);
+			InputStream in = getResources().openRawResource(R.raw.me_2013);
 			CSVReader reader = new CSVReader(new InputStreamReader(in, "Cp1252"), ';');
 
 			Integer currentCompetitionNumber = null;
