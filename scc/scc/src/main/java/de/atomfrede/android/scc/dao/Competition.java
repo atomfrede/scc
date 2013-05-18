@@ -82,13 +82,18 @@ public class Competition {
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
-    public synchronized List<Lap> getLapList() {
+    public List<Lap> getLapList() {
         if (lapList == null) {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
             LapDao targetDao = daoSession.getLapDao();
-            lapList = targetDao._queryCompetition_LapList(id);
+            List<Lap> lapListNew = targetDao._queryCompetition_LapList(id);
+            synchronized (this) {
+                if(lapList == null) {
+                    lapList = lapListNew;
+                }
+            }
         }
         return lapList;
     }

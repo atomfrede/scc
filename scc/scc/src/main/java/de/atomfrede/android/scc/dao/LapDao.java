@@ -7,11 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
 import de.greenrobot.dao.AbstractDao;
-import de.greenrobot.dao.DaoConfig;
 import de.greenrobot.dao.Property;
-import de.greenrobot.dao.SqlUtils;
-import de.greenrobot.dao.Query;
-import de.greenrobot.dao.QueryBuilder;
+import de.greenrobot.dao.internal.SqlUtils;
+import de.greenrobot.dao.internal.DaoConfig;
+import de.greenrobot.dao.query.Query;
+import de.greenrobot.dao.query.QueryBuilder;
 
 import de.atomfrede.android.scc.dao.Lap;
 
@@ -151,16 +151,18 @@ public class LapDao extends AbstractDao<Lap, Long> {
     }
     
     /** Internal query to resolve the "lapList" to-many relationship of Competition. */
-    public synchronized List<Lap> _queryCompetition_LapList(long competitionId) {
-        if (competition_LapListQuery == null) {
-            QueryBuilder<Lap> queryBuilder = queryBuilder();
-            queryBuilder.where(Properties.CompetitionId.eq(competitionId));
-            queryBuilder.orderRaw("LAP_NUMBER ASC");
-            competition_LapListQuery = queryBuilder.build();
-        } else {
-            competition_LapListQuery.setParameter(0, competitionId);
+    public List<Lap> _queryCompetition_LapList(long competitionId) {
+        synchronized (this) {
+            if (competition_LapListQuery == null) {
+                QueryBuilder<Lap> queryBuilder = queryBuilder();
+                queryBuilder.where(Properties.CompetitionId.eq(null));
+                queryBuilder.orderRaw("LAP_NUMBER ASC");
+                competition_LapListQuery = queryBuilder.build();
+            }
         }
-        return competition_LapListQuery.list();
+        Query<Lap> query = competition_LapListQuery.forCurrentThread();
+        query.setParameter(0, competitionId);
+        return query.list();
     }
 
     private String selectDeep;

@@ -96,13 +96,17 @@ public class Lap implements Comparable<Lap> {
 
     /** To-one relationship, resolved on first access. */
     public Competition getCompetition() {
-        if (competition__resolvedKey == null || !competition__resolvedKey.equals(competitionId)) {
+        long __key = this.competitionId;
+        if (competition__resolvedKey == null || !competition__resolvedKey.equals(__key)) {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
             CompetitionDao targetDao = daoSession.getCompetitionDao();
-            competition = targetDao.load(competitionId);
-            competition__resolvedKey = competitionId;
+            Competition competitionNew = targetDao.load(__key);
+            synchronized (this) {
+                competition = competitionNew;
+            	competition__resolvedKey = __key;
+            }
         }
         return competition;
     }
@@ -111,19 +115,26 @@ public class Lap implements Comparable<Lap> {
         if (competition == null) {
             throw new DaoException("To-one property 'competitionId' has not-null constraint; cannot set to-one to null");
         }
-        this.competition = competition;
-        competitionId = competition.getId();
-        competition__resolvedKey = competitionId;
+        synchronized (this) {
+            this.competition = competition;
+            competitionId = competition.getId();
+            competition__resolvedKey = competitionId;
+        }
     }
 
     /** To-many relationship, resolved on first access (and after reset). Changes to to-many relations are not persisted, make changes to the target entity. */
-    public synchronized List<LapEntry> getLapEntryList() {
+    public List<LapEntry> getLapEntryList() {
         if (lapEntryList == null) {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
             LapEntryDao targetDao = daoSession.getLapEntryDao();
-            lapEntryList = targetDao._queryLap_LapEntryList(id);
+            List<LapEntry> lapEntryListNew = targetDao._queryLap_LapEntryList(id);
+            synchronized (this) {
+                if(lapEntryList == null) {
+                    lapEntryList = lapEntryListNew;
+                }
+            }
         }
         return lapEntryList;
     }

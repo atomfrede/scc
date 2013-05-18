@@ -15,12 +15,7 @@
             <url>http://www.gnu.org/licenses/gpl.txt</url>
           </license>
         </licenses>
-    <repositories>
-    	<repository>
-      		<id>atomfredes-repository</id>
-      		<url>http://localhost:8081/nexus/content/repositories/atomfrede/</url>
-    	</repository>
-  </repositories>
+   
 
     <modules>
         <module>scc</module>
@@ -108,15 +103,15 @@
                 <version>4.10</version>
                 <scope>provided</scope>
             </dependency>
-	<dependency>
-  <groupId>de.greenrobot</groupId>
-  <artifactId>greendao</artifactId>
-  <version>1.2.0</version>
+<dependency>
+    <groupId>de.greenrobot</groupId>
+    <artifactId>greendao</artifactId>
+    <version>1.3.1</version>
 </dependency>
 <dependency>
-  <groupId>de.greenrobot</groupId>
-  <artifactId>greendao-generator</artifactId>
-  <version>1.2.0</version>
+    <groupId>de.greenrobot</groupId>
+    <artifactId>greendao-generator</artifactId>
+    <version>1.3.1</version>
 </dependency>
         </dependencies>
     </dependencyManagement>

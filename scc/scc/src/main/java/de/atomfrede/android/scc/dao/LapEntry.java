@@ -140,13 +140,17 @@ public class LapEntry implements Comparable<LapEntry> {
 
     /** To-one relationship, resolved on first access. */
     public Lap getLap() {
-        if (lap__resolvedKey == null || !lap__resolvedKey.equals(lapId)) {
+        long __key = this.lapId;
+        if (lap__resolvedKey == null || !lap__resolvedKey.equals(__key)) {
             if (daoSession == null) {
                 throw new DaoException("Entity is detached from DAO context");
             }
             LapDao targetDao = daoSession.getLapDao();
-            lap = targetDao.load(lapId);
-            lap__resolvedKey = lapId;
+            Lap lapNew = targetDao.load(__key);
+            synchronized (this) {
+                lap = lapNew;
+            	lap__resolvedKey = __key;
+            }
         }
         return lap;
     }
@@ -155,9 +159,11 @@ public class LapEntry implements Comparable<LapEntry> {
         if (lap == null) {
             throw new DaoException("To-one property 'lapId' has not-null constraint; cannot set to-one to null");
         }
-        this.lap = lap;
-        lapId = lap.getId();
-        lap__resolvedKey = lapId;
+        synchronized (this) {
+            this.lap = lap;
+            lapId = lap.getId();
+            lap__resolvedKey = lapId;
+        }
     }
 
     /** Convenient call for {@link AbstractDao#delete(Object)}. Entity must attached to an entity context. */

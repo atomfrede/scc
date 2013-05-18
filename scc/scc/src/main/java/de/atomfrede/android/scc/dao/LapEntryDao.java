@@ -7,11 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
 import de.greenrobot.dao.AbstractDao;
-import de.greenrobot.dao.DaoConfig;
 import de.greenrobot.dao.Property;
-import de.greenrobot.dao.SqlUtils;
-import de.greenrobot.dao.Query;
-import de.greenrobot.dao.QueryBuilder;
+import de.greenrobot.dao.internal.SqlUtils;
+import de.greenrobot.dao.internal.DaoConfig;
+import de.greenrobot.dao.query.Query;
+import de.greenrobot.dao.query.QueryBuilder;
 
 import de.atomfrede.android.scc.dao.LapEntry;
 
@@ -192,16 +192,18 @@ public class LapEntryDao extends AbstractDao<LapEntry, Void> {
     }
     
     /** Internal query to resolve the "lapEntryList" to-many relationship of Lap. */
-    public synchronized List<LapEntry> _queryLap_LapEntryList(long lapId) {
-        if (lap_LapEntryListQuery == null) {
-            QueryBuilder<LapEntry> queryBuilder = queryBuilder();
-            queryBuilder.where(Properties.LapId.eq(lapId));
-            queryBuilder.orderRaw("LANE ASC");
-            lap_LapEntryListQuery = queryBuilder.build();
-        } else {
-            lap_LapEntryListQuery.setParameter(0, lapId);
+    public List<LapEntry> _queryLap_LapEntryList(long lapId) {
+        synchronized (this) {
+            if (lap_LapEntryListQuery == null) {
+                QueryBuilder<LapEntry> queryBuilder = queryBuilder();
+                queryBuilder.where(Properties.LapId.eq(null));
+                queryBuilder.orderRaw("LANE ASC");
+                lap_LapEntryListQuery = queryBuilder.build();
+            }
         }
-        return lap_LapEntryListQuery.list();
+        Query<LapEntry> query = lap_LapEntryListQuery.forCurrentThread();
+        query.setParameter(0, lapId);
+        return query.list();
     }
 
     private String selectDeep;
