@@ -24,7 +24,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.util.LruCache;
 import android.support.v4.view.ViewPager;
@@ -35,6 +34,7 @@ import com.googlecode.androidannotations.annotations.AfterViews;
 import com.googlecode.androidannotations.annotations.App;
 import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.FragmentArg;
+import com.googlecode.androidannotations.annotations.InstanceState;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.viewpagerindicator.TitlePageIndicator;
 
@@ -82,8 +82,10 @@ public class LapFragment extends Fragment {
 
 	LapPagerAdapter mPagerAdapter;
 
+    @InstanceState
 	public long selectedLapId;
-
+	
+    @InstanceState
 	public int lastSelectedPagerPositon;
 
 	public long getShownCompetionId() {
@@ -134,19 +136,28 @@ public class LapFragment extends Fragment {
 	}
 
 	public void markAsDone() {
+		Log.d("Laps", "mPagerAdapter.position_fragment.size() "+(mPagerAdapter.position_fragment.size()));
 		if (selectedLapId == 0) {
 			// 0 is the initial value...
 			selectedLapId = mLaps.get(lastSelectedPagerPositon).getId();
 		}
 
-		mLaps.get(lastSelectedPagerPositon).setIsDone(true);
+		boolean isDone = mLaps.get(lastSelectedPagerPositon).getIsDone();
+		
+		mLaps.get(lastSelectedPagerPositon).setIsDone(!isDone);
 		Lap lap = mLapDao.load(selectedLapId);
-		lap.setIsDone(true);
+		lap.setIsDone(!isDone);
 		mLapDao.update(lap);
 
-		mPagerAdapter.position_fragment.get(lastSelectedPagerPositon).mEntryAdapter.notifyDataSetChanged();
+		
+		try{
+			mPagerAdapter.position_fragment.get(lastSelectedPagerPositon).mEntryAdapter.notifyDataSetChanged();
+		}catch(Exception e){
+			LapEntryFragment_ lapEntryFragment = (LapEntryFragment_)mPagerAdapter.instantiateItem(mPager, lastSelectedPagerPositon);
+			lapEntryFragment.mEntryAdapter.notifyDataSetChanged();
+		}
 
-		if (mPagerAdapter.getCount() > lastSelectedPagerPositon) {
+		if (!isDone && mPagerAdapter.getCount() > lastSelectedPagerPositon) {
 			mIndicator.setCurrentItem(lastSelectedPagerPositon + 1);
 		}
 	}
@@ -155,12 +166,13 @@ public class LapFragment extends Fragment {
 
 		CompetitionDao competitionDao;
 		Activity context;
-		LruCache<Integer, LapEntryFragment> position_fragment = new LruCache<Integer, LapEntryFragment>(6);
+		LruCache<Integer, LapEntryFragment> position_fragment;
 
 		public LapPagerAdapter(FragmentManager fm, long competitionId, Activity context) {
 			super(fm);
 			competitionDao = mApplication.competitonDao;
 			this.context = context;
+			position_fragment = new LruCache<Integer, LapEntryFragment>(6);
 
 		}
 

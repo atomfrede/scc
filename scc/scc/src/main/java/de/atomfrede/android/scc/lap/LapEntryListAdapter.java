@@ -21,6 +21,7 @@ package de.atomfrede.android.scc.lap;
 import java.util.List;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,14 +87,20 @@ public class LapEntryListAdapter extends ArrayAdapter<LapEntry> {
 		holder.yearText.setText("(" + cEntry.getYear() + ")");
 		holder.doneMarkerImageView.setVisibility(View.GONE);
 
+//		holder.laneText.setTextColor(R.color.holo_green);
+//		holder.timeText.setTextColor(R.color.holo_green);
+//		holder.nameText.setTextColor(R.color.holo_green);
+//		holder.clubText.setTextColor(R.color.holo_green);
+//		holder.yearText.setTextColor(R.color.holo_green);
+		
 		if (isDone) {
-			holder.laneText.setTextColor(R.color.lap_done_grey);
+			holder.laneText.setTextColor(R.color.holo_red);
 			holder.timeText.setTextColor(R.color.lap_done_grey);
 			holder.nameText.setTextColor(R.color.lap_done_grey);
 			holder.clubText.setTextColor(R.color.lap_done_grey);
 			holder.yearText.setTextColor(R.color.lap_done_grey);
 			holder.doneMarkerImageView.setVisibility(View.VISIBLE);
-		}
+		} 
 
 		return rowView;
 	}
