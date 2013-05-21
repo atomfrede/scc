@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="lap_done_grey">#b4b4b4</color>
+    <color name="lap_default">#000</color>
+    <color name="holo_light_green">#9c0</color>
+    <color name="holo_light_red">#f44</color>
+    <color name="holo_light_blue">#33b5e5</color>
+    <color name="holo_light_orange">#fb3</color>
+    <color name="holo_green">#690</color>
+    <color name="holo_red">#c00</color>
+    <color name="holo_blue">#09c</color>
+    <color name="holo_orange">#f80</color>
 </resources>

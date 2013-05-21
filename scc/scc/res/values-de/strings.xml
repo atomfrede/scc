@@ -2,7 +2,7 @@
 <resources>
 
     <string name="hello">Hello scc!</string>
-    <string name="app_name">Sprintercup 2012</string>
+    <string name="app_name">Sprintercup</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
@@ -20,7 +20,7 @@
     <string name="link_android_annotations"><![CDATA[<a href="http://androidannotations.org/">Android Annotations</a>]]> by eBusiness Information released under Apache License 2.0</string>
 	<string name="link_viewpager_indicator"><![CDATA[<a href="http://viewpagerindicator.com/">ViewPagerIndicator</a>]]> by Jake Wharton released under Apache License 2.0</string>
 	<string name="link_viewpager_green_dao"><![CDATA[<a href="http://greendao-orm.com/">GreenDao ORM</a>]]> by greenrobot released under Apache License 2.0</string>
-	<string name="name_year">Copyright Frederik Hahne 2012</string>
+	<string name="name_year">Copyright Frederik Hahne 2012 - 2013</string>
 	<string name="license">Released under GPL v3</string>
 	<string name="oss">Open Source Libraries</string>
 	<string name="about_header">Über</string>
