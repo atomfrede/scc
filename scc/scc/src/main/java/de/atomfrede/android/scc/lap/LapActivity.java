@@ -62,6 +62,9 @@ public class LapActivity extends FragmentActivity {
 
 	@Extra
 	public String competionNumber;
+	
+	@Extra
+	public Boolean isDualPane;
 
 	@AfterInject
 	public void getDao() {
@@ -78,6 +81,10 @@ public class LapActivity extends FragmentActivity {
 
 		mLapFragment.competitionId = selectedCompetionId;
 		mLapFragment.initPager();
+		
+		if(isDualPane){
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 	}
 
 	@OptionsItem(R.id.menu_mark_as_done)
@@ -85,6 +92,11 @@ public class LapActivity extends FragmentActivity {
 		mLapFragment.markAsDone();
 	}
 
+	@OptionsItem(android.R.id.home)
+	public void onUp(){
+		super.onBackPressed();
+	}
+	
 	@OptionsItem(R.id.menu_about)
 	public void showAboutMenu() {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/imageView1"
                 android:layout_toRightOf="@+id/homepage_link_text"
-                android:text="TextView"
+                android:text="@string/app_name"
                 android:textSize="19sp"
                 android:textStyle="bold" />
 
@@ -115,6 +115,17 @@
                 android:layout_below="@+id/app_name_text"
                 android:layout_toRightOf="@+id/homepage_link_text"
                 android:text="@string/about_app_name" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/app_name_text"
+                android:layout_alignBottom="@+id/app_name_text"
+                android:layout_toRightOf="@+id/app_name_text"
+                android:paddingLeft="5dp"
+                android:text="@string/year"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
 
         </RelativeLayout>
     </ScrollView>

@@ -99,7 +99,7 @@ public class CompetitionFragment extends Fragment {
 	public void myListItemClicked(int position) {
 		if (!isDualPane) {
 			Competition clickedCompetion = mAdapater.getItem(position);
-			LapActivity_.intent(this.getActivity()).competionNumber(clickedCompetion.getCompetitionNumber() + "").competitionName(clickedCompetion.getName()).selectedCompetionId(clickedCompetion.getId()).start();
+			LapActivity_.intent(this.getActivity()).competionNumber(clickedCompetion.getCompetitionNumber() + "").competitionName(clickedCompetion.getName()).selectedCompetionId(clickedCompetion.getId()).isDualPane(true).start();
 		} else {
 			mCurCheckPosition = position;
 			showDetails(mCurCheckPosition);
