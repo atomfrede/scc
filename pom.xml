@@ -4,7 +4,7 @@
 
     <groupId>de.atomfrede.android</groupId>
     <artifactId>scc-project</artifactId>
-    <version>0.0.5</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>scc - Project</name>
     <url>http://atomfrede.github.com/scc/</url>
@@ -55,7 +55,7 @@
 	<android.platform>16</android.platform>
 	<android-maven.version>3.4.0</android-maven.version>
 	<junit.version>4.10</junit.version>
-	<project.codeVersion>6</project.codeVersion>
+	<project.codeVersion>9</project.codeVersion>
     </properties>
 
     <dependencyManagement>

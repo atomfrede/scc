@@ -10,9 +10,9 @@
     <string name="loading">Loading. Please be patient.</string>
     <string name="competition_heading_text">Competition No. $i$</string>
     <string name="loading_competition">Loading Competition No. $i$</string>
-    <string name="loading_lap">Loading Lap No. $i$</string>
+    <string name="loading_lap">Loading Heat No. $i$</string>
     <string name="loading_database">Writing Database</string>
-    <string name="lap_header">Lap $i$</string>
+    <string name="lap_header">Heat $i$</string>
     <string name="lane">Lane $i$</string>
     <string name="menu_about">About</string>
     

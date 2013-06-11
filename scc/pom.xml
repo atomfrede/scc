@@ -5,12 +5,12 @@
     <parent>
     <groupId>de.atomfrede.android</groupId>
     <artifactId>scc-project</artifactId>
-    <version>0.0.5</version>
+    <version>1.0.0</version>
     </parent>
 
     <groupId>de.atomfrede.android</groupId>
     <artifactId>scc-parent</artifactId>
-    <version>0.0.5</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>scc - Parent</name>
     <url>http://atomfrede.github.com/scc/</url>
@@ -197,10 +197,7 @@
                         <archive>${project.build.directory}/${project.build.finalName}.${project.packaging}</archive>
                         <verbose>true</verbose>
                         <certs>true</certs>
-                        <keystore>${sign.keystore}</keystore>
-                        <alias>${sign.alias}</alias>
-                        <storepass>${sign.storepass}</storepass>
-                        <keypass>${sign.keypass}</keypass>
+
                     </configuration>
                 </plugin>
 

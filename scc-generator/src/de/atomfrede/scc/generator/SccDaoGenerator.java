@@ -27,8 +27,10 @@ import de.greenrobot.daogenerator.ToMany;
 
 public class SccDaoGenerator {
 
+	private static int schemaVersion = 2;
+	
 	public static void main(String[] args) throws Exception {
-		Schema schema = new Schema(1, "de.atomfrede.android.scc.dao");
+		Schema schema = new Schema(schemaVersion, "de.atomfrede.android.scc.dao");
 		schema.enableKeepSectionsByDefault();
 		
 		createCompetition(schema);

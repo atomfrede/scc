@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>de.atomfrede.android</groupId>
 		<artifactId>scc-parent</artifactId>
-		<version>0.0.5</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<groupId>de.atomfrede.android</groupId>
@@ -112,7 +112,7 @@
 								<outputApk>${project.build.directory}/${project.artifactId}-${project.version}-signed-aligned.apk</outputApk>
 							</zipalign>
 							<sign>
-								<debug>false</debug>
+								<debug>true</debug>
 							</sign>
 						</configuration>
 					</plugin>
