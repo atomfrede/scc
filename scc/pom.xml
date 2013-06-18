@@ -63,7 +63,7 @@
 	<java.version>1.6</java.version>
 	<platform.version>4.1.1.4</platform.version>
 	<android.platform>16</android.platform>
-	<android-maven.version>3.4.0</android-maven.version>
+	<android-maven.version>3.6.0</android-maven.version>
 	<junit.version>4.10</junit.version>
     </properties>
 

@@ -36,6 +36,7 @@ import com.googlecode.androidannotations.annotations.EFragment;
 import com.googlecode.androidannotations.annotations.FragmentArg;
 import com.googlecode.androidannotations.annotations.InstanceState;
 import com.googlecode.androidannotations.annotations.ViewById;
+import com.manuelpeinado.numericpageindicator.NumericPageIndicator;
 import com.viewpagerindicator.TitlePageIndicator;
 
 import de.atomfrede.android.scc.R;
@@ -74,8 +75,11 @@ public class LapFragment extends Fragment {
 	@ViewById(R.id.pager)
 	ViewPager mPager;
 
-	@ViewById(R.id.titles)
-	TitlePageIndicator mIndicator;
+//	@ViewById(R.id.titles)
+//	TitlePageIndicator mIndicator;
+	
+	@ViewById(R.id.numericIndicator)
+	NumericPageIndicator mIndicator;
 
 	@FragmentArg("competitionId")
 	public long competitionId;
@@ -105,7 +109,20 @@ public class LapFragment extends Fragment {
 
 			mPagerAdapter = new LapPagerAdapter(getFragmentManager(), this.competitionId, this.getActivity());
 			mPager.setAdapter(mPagerAdapter);
+			
 			mIndicator.setViewPager(mPager);
+			
+			mIndicator.setNextButtonText(">");
+			mIndicator.setPreviousButtonText("<");
+			
+			mIndicator.setEndButtonText(">|");
+			mIndicator.setStartButtonText("|<");
+			
+			mIndicator.setTextTemplate(getResources().getString(R.string.heat_header));
+			
+			mIndicator.setTextColor(getResources().getColor(R.color.lap_default));
+			mIndicator.setPageNumberTextBold(true);
+			mIndicator.setPageNumberTextColor(getResources().getColor(R.color.holo_light_blue));
 
 			mIndicator.setOnPageChangeListener(new OnPageChangeListener() {
 

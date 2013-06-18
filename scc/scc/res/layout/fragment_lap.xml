@@ -5,14 +5,16 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <com.manuelpeinado.numericpageindicator.NumericPageIndicator
+        android:id="@+id/numericIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-
-    <com.viewpagerindicator.TitlePageIndicator
-        android:id="@+id/titles"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/primary_text_light"
-        app:selectedColor="@android:color/primary_text_light" />
+        android:layout_height="1dp"
+        android:background="@color/holo_light_blue" >
+    </LinearLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

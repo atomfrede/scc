@@ -30,4 +30,6 @@
 	<string name="loading_database_participants">Writing Participants</string>
 	<string name="menu_mark_as_done">Marks as done</string>
 	<string name="about_app_name">SCC - The Sprintercup Companion App</string>
+	
+	<string name="heat_header">Heat #i of #N</string>
 </resources>
