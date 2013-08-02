@@ -30,7 +30,6 @@
 
     <modules>
         <module>scc</module>
-        <module>scc-it</module>
     </modules>
 
 <scm>
